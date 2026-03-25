@@ -75,14 +75,11 @@
       padding: 12px 28px;
 
       opacity: 0; /* começa invisível */
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 1.5s;
+      transition: opacity 1.5s ease; /* animação suave via JS */
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1; /* fica visível */
-      }
+    .rsvp-button.show {
+      opacity: 1;
     }
 
     .rsvp-button:hover {
@@ -137,13 +134,18 @@
   </audio>
 
   <script>
-    // Primeiro toque do usuário ativa vídeo e música
+    // Mostrar botão depois de 1,5s (sem bloquear vídeo)
+    setTimeout(() => {
+      document.querySelector('.rsvp-button').classList.add('show');
+    }, 1500);
+
+    // Primeiro toque do usuário ativa música (vídeo já autoplay, mas força em mobile)
     document.body.addEventListener('click', () => {
       const audio = document.getElementById('bg-music');
       audio.play();
 
       const video = document.querySelector('.bg-video');
-      video.play(); // força vídeo em mobile
+      if (video.paused) video.play(); // força vídeo se mobile bloqueou
     }, {once:true});
 
     // Contador regressivo
