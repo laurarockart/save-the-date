@@ -23,7 +23,7 @@
     text-align: center;
     padding: 0 5%;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 2;
   }
   .names { font-size: 6vw; margin-bottom: 4vh; letter-spacing: 6px; opacity: 0.6; text-transform: lowercase; }
   .date { font-size: 12vw; font-weight: 300; line-height: 1.1; word-break: break-word; }
@@ -41,6 +41,8 @@
     padding: 12px 28px;
     opacity: 0;
     transition: opacity 1.5s ease;
+    z-index: 2;
+    position: relative;
   }
   .rsvp-button.show { opacity: 1; }
   .rsvp-button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
@@ -51,9 +53,17 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
+    z-index: 0;
     opacity: 0.25;
     filter: blur(8px) contrast(120%) grayscale(100%);
+  }
+  /* Overlay invisível para primeiro toque */
+  #touch-overlay {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:3;
+    background: transparent;
   }
   @media (min-width: 600px) {
     .names { font-size: 36px; margin-bottom: 60px; }
@@ -74,7 +84,7 @@
 </div>
 
 <!-- Vídeo autoplay + loop + muted + playsinline -->
-<video autoplay muted loop playsinline preload="auto" class="bg-video">
+<video autoplay muted loop playsinline preload="auto" class="bg-video" id="bg-video">
   <source src="video.mp4" type="video/mp4">
 </video>
 
@@ -83,22 +93,19 @@
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
+<!-- Overlay invisível -->
+<div id="touch-overlay"></div>
+
 <script>
   // Mostrar botão RSVP após 1,5s
-  setTimeout(() => { document.querySelector('.rsvp-button').classList.add('show'); }, 1500);
-
-  // Música só toca no primeiro toque
-  document.body.addEventListener('click', () => {
-    const audio = document.getElementById('bg-music');
-    audio.play().catch(()=>{});
-  }, {once:true});
+  setTimeout(()=>{ document.querySelector('.rsvp-button').classList.add('show'); }, 1500);
 
   // Contador regressivo
   const eventDate = new Date("2026-09-03T22:00:00").getTime();
   function updateCountdown(){
     const now = new Date().getTime();
     const distance = eventDate - now;
-    if(distance < 0){ document.getElementById("countdown").innerHTML="it’s happening"; return; }
+    if(distance<0){ document.getElementById("countdown").innerHTML="it’s happening"; return; }
     const days = Math.floor(distance/(1000*60*60*24));
     const hours = Math.floor((distance/(1000*60*60))%24);
     const minutes = Math.floor((distance/(1000*60))%60);
@@ -108,6 +115,16 @@
   }
   updateCountdown();
   setInterval(updateCountdown,1000);
+
+  // Primeiro toque: desbloquear vídeo e música no mobile
+  const overlay = document.getElementById('touch-overlay');
+  overlay.addEventListener('click', ()=>{
+    const audio = document.getElementById('bg-music');
+    const video = document.getElementById('bg-video');
+    video.play().catch(()=>{});
+    audio.play().catch(()=>{});
+    overlay.remove(); // Remove overlay invisível após toque
+  }, {once:true});
 </script>
 
 </body>
