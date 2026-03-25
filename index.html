@@ -17,45 +17,42 @@
     color: #f5f5f5;
   }
 
-  /* VÍDEO DE FUNDO */
   .bg-video {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top:0; left:0;
+    width:100%; height:100%;
     object-fit: cover;
-    z-index: 0;
-    opacity: 0.25;
+    z-index:0;
+    opacity:0.25;
     filter: blur(8px) contrast(120%) grayscale(100%);
   }
 
-  /* CONTEÚDO */
   .poster {
     position: relative;
-    z-index: 2;
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
-    padding: 0 5%;
-    box-sizing: border-box;
+    z-index:2;
+    width:90%;
+    max-width:600px;
+    text-align:center;
+    padding:0 5%;
+    box-sizing:border-box;
   }
 
-  .names { font-size: 6vw; margin-bottom: 4vh; letter-spacing: 6px; opacity: 0.6; text-transform: lowercase; }
-  .date { font-size: 12vw; font-weight: 300; line-height: 1.1; word-break: break-word; }
-  .info { margin-top: 2vh; font-size: 3vw; letter-spacing: 4px; text-transform: lowercase; opacity: 0.7; }
-  .countdown { margin-top: 4vh; font-size: 3vw; opacity: 0.35; letter-spacing: 3px; }
+  .names { font-size:6vw; margin-bottom:4vh; letter-spacing:6px; opacity:0.6; text-transform: lowercase; }
+  .date { font-size:12vw; font-weight:300; line-height:1.1; word-break: break-word; }
+  .info { margin-top:2vh; font-size:3vw; letter-spacing:4px; text-transform: lowercase; opacity:0.7; }
+  .countdown { margin-top:4vh; font-size:3vw; opacity:0.35; letter-spacing:3px; }
 
-  /* BOTÃO RSVP sem animação inicial */
   .rsvp-button {
-    margin-top: 50px;
-    display: inline-block;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #f5f5f5;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: lowercase;
-    padding: 12px 28px;
-    background: transparent;
+    margin-top:50px;
+    display:inline-block;
+    text-decoration:none;
+    border:1px solid rgba(255,255,255,0.3);
+    color:#f5f5f5;
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:lowercase;
+    padding:12px 28px;
+    background:transparent;
     transition: background 0.3s, border-color 0.3s;
   }
   .rsvp-button:hover {
@@ -63,17 +60,17 @@
     border-color: rgba(255,255,255,0.6);
   }
 
-  @media (min-width: 600px){
-    .names { font-size:36px; margin-bottom:60px; }
-    .date { font-size:70px; }
-    .info { font-size:12px; }
-    .countdown { font-size:12px; }
+  @media (min-width:600px){
+    .names{ font-size:36px; margin-bottom:60px; }
+    .date{ font-size:70px; }
+    .info{ font-size:12px; }
+    .countdown{ font-size:12px; }
   }
 </style>
 </head>
 <body>
 
-<!-- VÍDEO AUTOPLAY -->
+<!-- Vídeo de fundo -->
 <video autoplay muted loop playsinline preload="auto" class="bg-video" id="bg-video">
   <source src="video.mp4" type="video/mp4">
 </video>
@@ -84,42 +81,45 @@
   <div class="info">22:00 · porto — you’ll find out</div>
   <div class="countdown" id="countdown"></div>
 
-  <!-- BOTÃO RSVP sem animação -->
+  <!-- Botão RSVP sem animação -->
   <a href="https://forms.gle/YFfshJma97fQJsei7" class="rsvp-button">confirm</a>
 </div>
 
-<!-- MÚSICA -->
+<!-- Música -->
 <audio id="bg-music" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-  // CONTADOR REGRESSIVO
+  // Contador regressivo
   const eventDate = new Date("2026-09-03T22:00:00").getTime();
-  function updateCountdown() {
+  function updateCountdown(){
     const now = new Date().getTime();
     const distance = eventDate - now;
-    if (distance < 0) {
-      document.getElementById("countdown").innerHTML = "it’s happening";
+    if(distance < 0){
+      document.getElementById("countdown").innerHTML="it’s happening";
       return;
     }
     const days = Math.floor(distance / (1000*60*60*24));
-    const hours = Math.floor((distance/(1000*60*60)) % 24);
-    const minutes = Math.floor((distance/(1000*60)) % 60);
-    const seconds = Math.floor((distance/1000) % 60);
-    document.getElementById("countdown").innerHTML =
-      days + "d " + String(hours).padStart(2,'0') + ":" +
-      String(minutes).padStart(2,'0') + ":" +
-      String(seconds).padStart(2,'0');
+    const hours = Math.floor((distance/(1000*60*60))%24);
+    const minutes = Math.floor((distance/(1000*60))%60);
+    const seconds = Math.floor((distance/1000)%60);
+    document.getElementById("countdown").innerHTML = days+"d "+String(hours).padStart(2,'0')+":"+String(minutes).padStart(2,'0')+":"+String(seconds).padStart(2,'0');
   }
   updateCountdown();
-  setInterval(updateCountdown, 1000);
+  setInterval(updateCountdown,1000);
 
-  // Música só toca no toque
-  document.body.addEventListener('click', () => {
+  // Música apenas no toque
+  document.body.addEventListener('click', ()=>{
     const audio = document.getElementById('bg-music');
     if(audio){ audio.play().catch(()=>{}); }
   }, {once:true});
+
+  // Forçar autoplay do vídeo no Safari se travar
+  const video = document.getElementById('bg-video');
+  video.addEventListener('canplay', ()=>{
+    video.play().catch(()=>{ console.log('Tentativa de autoplay falhou, mas não bloqueia layout.'); });
+  });
 </script>
 
 </body>
