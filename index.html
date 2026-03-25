@@ -139,19 +139,11 @@
       document.querySelector('.rsvp-button').classList.add('show');
     }, 1500);
 
-    // Primeiro toque no mobile dispara música e força vídeo a tocar
-    function enableMedia() {
+    // Música só toca após o primeiro toque do usuário
+    document.body.addEventListener('click', () => {
       const audio = document.getElementById('bg-music');
       audio.play().catch(() => {});
-
-      const video = document.querySelector('.bg-video');
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    }
-
-    // Escuta qualquer toque na tela (uma vez)
-    document.body.addEventListener('click', enableMedia, {once:true});
+    }, {once:true});
 
     // Contador regressivo
     const eventDate = new Date("2026-09-03T22:00:00").getTime();
