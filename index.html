@@ -75,7 +75,7 @@
       padding: 12px 28px;
 
       opacity: 0; /* começa invisível */
-      transition: opacity 1.5s ease; /* animação suave via JS */
+      transition: opacity 1.5s ease;
     }
 
     .rsvp-button.show {
@@ -134,19 +134,24 @@
   </audio>
 
   <script>
-    // Mostrar botão depois de 1,5s (sem bloquear vídeo)
+    // Mostrar botão RSVP após 1,5s (mesma animação)
     setTimeout(() => {
       document.querySelector('.rsvp-button').classList.add('show');
     }, 1500);
 
-    // Primeiro toque do usuário ativa música (vídeo já autoplay, mas força em mobile)
-    document.body.addEventListener('click', () => {
+    // Primeiro toque no mobile dispara música e força vídeo a tocar
+    function enableMedia() {
       const audio = document.getElementById('bg-music');
-      audio.play();
+      audio.play().catch(() => {});
 
       const video = document.querySelector('.bg-video');
-      if (video.paused) video.play(); // força vídeo se mobile bloqueou
-    }, {once:true});
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    }
+
+    // Escuta qualquer toque na tela (uma vez)
+    document.body.addEventListener('click', enableMedia, {once:true});
 
     // Contador regressivo
     const eventDate = new Date("2026-09-03T22:00:00").getTime();
