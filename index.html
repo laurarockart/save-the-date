@@ -5,95 +5,81 @@
   <title>03.09.2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
   <style>
-  body {
-  margin: 0;
-  height: 100vh;
-  color: #f5f5f5;
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #0a0a0a;
-}
+    body {
+      margin: 0;
+      height: 100vh;
+      color: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
 
-.poster {
-  position: relative;
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-}
+    .poster {
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
 
-/* MOBILE-FIRST: tamanhos legíveis */
-.names {
-  font-size: 24px;      /* maior, ainda elegante */
-  margin-bottom: 60px;
-  letter-spacing: 6px;
-  opacity: 0.6;
-  text-transform: lowercase;
-}
+    /* MOBILE-FIRST: mantém o estilo clean do desktop */
+    .names {
+      font-size: 12px;      /* igual ao desktop */
+      margin-bottom: 60px;
+      letter-spacing: 6px;
+      opacity: 0.6;
+      text-transform: lowercase;
+    }
 
-.date {
-  font-size: 80px;      /* a data é o foco, grande e legível */
-  font-weight: 300;
-  line-height: 1;
-}
+    .date {
+      font-size: 70px;      /* igual ao desktop */
+      font-weight: 300;
+      line-height: 1;
+      white-space: normal;   /* evita corte do texto */
+    }
 
-.info {
-  margin-top: 20px;
-  font-size: 18px;      /* legível em mobile */
-  letter-spacing: 4px;
-  text-transform: lowercase;
-  opacity: 0.7;
-  white-space: nowrap;   /* evita quebra de linha */
-}
+    .info {
+      margin-top: 20px;
+      font-size: 12px;      /* igual ao desktop */
+      letter-spacing: 4px;
+      text-transform: lowercase;
+      opacity: 0.7;
+      white-space: normal;   /* permite quebra se necessário */
+    }
 
-.countdown {
-  margin-top: 60px;
-  font-size: 18px;
-  opacity: 0.35;
-  letter-spacing: 3px;
-}
+    .countdown {
+      margin-top: 60px;
+      font-size: 12px;      /* igual ao desktop */
+      opacity: 0.35;
+      letter-spacing: 3px;
+    }
 
-/* Vídeo de fundo */
-.bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  opacity: 0.15;
-  filter: blur(8px) contrast(120%) grayscale(100%);
-}
+    /* Vídeo de fundo */
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.15;
+      filter: blur(8px) contrast(120%) grayscale(100%);
+    }
 
-/* DESKTOP: mantém proporções pequenas */
-@media (min-width: 600px) {
-  .poster {
-    width: 600px;
-  }
+    /* DESKTOP: mantém proporções */
+    @media (min-width: 600px) {
+      .poster {
+        width: 600px;
+      }
 
-  .names {
-    font-size: 12px;
-    margin-bottom: 60px;
-    letter-spacing: 6px;
-  }
-
-  .date {
-    font-size: 70px;
-  }
-
-  .info {
-    font-size: 12px;
-    letter-spacing: 4px;
-  }
-
-  .countdown {
-    font-size: 12px;
-    letter-spacing: 3px;
-  }
-}
+      .names { font-size: 12px; }
+      .date { font-size: 70px; }
+      .info { font-size: 12px; }
+      .countdown { font-size: 12px; }
+    }
   </style>
 </head>
 
@@ -111,17 +97,17 @@
   </video>
 
   <!-- Música de fundo -->
- <audio id="bg-music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
+  <audio id="bg-music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
 
-<script>
-  // Toca música quando o utilizador clicar na página
-  document.body.addEventListener('click', () => {
-    const audio = document.getElementById('bg-music');
-    audio.play();
-  }, {once:true});
-</script>
+  <script>
+    // Toca música quando o utilizador clicar na página
+    document.body.addEventListener('click', () => {
+      const audio = document.getElementById('bg-music');
+      audio.play();
+    }, {once:true});
+  </script>
 
   <script>
     // Countdown
