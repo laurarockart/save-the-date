@@ -124,7 +124,7 @@
   </div>
 
   <!-- VÍDEO -->
-  <video autoplay muted loop playsinline preload="auto" class="bg-video">
+  <video autoplay muted loop preload="auto" class="bg-video">
     <source src="video.mp4" type="video/mp4">
   </video>
 
@@ -134,20 +134,6 @@
   </audio>
 
   <script>
-    // Mostrar botão RSVP após 1,5s (mesma animação)
-    setTimeout(() => {
-      document.querySelector('.rsvp-button').classList.add('show');
-    }, 1500);
-
-    // Primeiro toque no mobile dispara música e força vídeo a tocar
-    function enableMedia() {
-      const audio = document.getElementById('bg-music');
-      audio.play().catch(() => {});
-    }
-
-    // Escuta qualquer toque na tela (uma vez)
-    document.body.addEventListener('click', enableMedia, {once:true});
-
     // Contador regressivo
     const eventDate = new Date("2026-09-03T22:00:00").getTime();
 
