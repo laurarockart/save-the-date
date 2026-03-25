@@ -27,7 +27,6 @@
       box-sizing: border-box;
     }
 
-    /* TEXTO RESPONSIVO */
     .names {
       font-size: 6vw;
       margin-bottom: 4vh;
@@ -58,36 +57,28 @@
       letter-spacing: 3px;
     }
 
-    /* BOTÃO RSVP */
     .rsvp-button {
       margin-top: 50px;
       display: inline-block;
       text-decoration: none;
-
       border: 1px solid rgba(255,255,255,0.3);
       color: #f5f5f5;
-
       font-family: 'Inter', sans-serif;
       font-size: 12px;
       letter-spacing: 3px;
       text-transform: lowercase;
-
       padding: 12px 28px;
-
-      opacity: 0; /* começa invisível */
+      opacity: 0;
       transition: opacity 1.5s ease;
     }
 
-    .rsvp-button.show {
-      opacity: 1;
-    }
+    .rsvp-button.show { opacity: 1; }
 
     .rsvp-button:hover {
       background: rgba(255,255,255,0.1);
       border-color: rgba(255,255,255,0.6);
     }
 
-    /* VÍDEO */
     .bg-video {
       position: fixed;
       top: 0;
@@ -100,7 +91,6 @@
       filter: blur(8px) contrast(120%) grayscale(100%);
     }
 
-    /* DESKTOP AJUSTE */
     @media (min-width: 600px) {
       .names { font-size: 36px; margin-bottom: 60px; }
       .date { font-size: 70px; }
@@ -117,8 +107,8 @@
     <div class="info">22:00 · porto — you’ll find out</div>
     <div class="countdown" id="countdown"></div>
 
-    <!-- BOTÃO CONFIRM -->
-    <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp-button">
+    <!-- BOTÃO CONFIRM (abre na mesma aba para permitir autoplay) -->
+    <a href="https://forms.gle/YFfshJma97fQJsei7" class="rsvp-button">
       confirm
     </a>
   </div>
@@ -134,12 +124,12 @@
   </audio>
 
   <script>
-    // Mostrar botão RSVP após 1,5s (mesma animação)
+    // Mostrar botão RSVP após 1,5s
     setTimeout(() => {
       document.querySelector('.rsvp-button').classList.add('show');
     }, 1500);
 
-    // Música só toca após o primeiro toque do usuário
+    // Música só toca no primeiro toque
     document.body.addEventListener('click', () => {
       const audio = document.getElementById('bg-music');
       audio.play().catch(() => {});
