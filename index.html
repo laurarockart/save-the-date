@@ -17,7 +17,7 @@
     color: #f5f5f5;
   }
 
-  /* Vídeo de fundo */
+  /* VÍDEO DE FUNDO */
   .bg-video {
     position: fixed;
     top: 0; left: 0;
@@ -28,6 +28,7 @@
     filter: blur(8px) contrast(120%) grayscale(100%);
   }
 
+  /* CONTEÚDO */
   .poster {
     position: relative;
     z-index: 2;
@@ -43,7 +44,7 @@
   .info { margin-top: 2vh; font-size: 3vw; letter-spacing: 4px; text-transform: lowercase; opacity: 0.7; }
   .countdown { margin-top: 4vh; font-size: 3vw; opacity: 0.35; letter-spacing: 3px; }
 
-  /* Botão RSVP */
+  /* BOTÃO RSVP sem animação inicial */
   .rsvp-button {
     margin-top: 50px;
     display: inline-block;
@@ -54,7 +55,6 @@
     letter-spacing: 3px;
     text-transform: lowercase;
     padding: 12px 28px;
-    position: relative;
     background: transparent;
     transition: background 0.3s, border-color 0.3s;
   }
@@ -73,57 +73,54 @@
 </head>
 <body>
 
-<!-- Vídeo no topo do DOM -->
+<!-- VÍDEO AUTOPLAY -->
 <video autoplay muted loop playsinline preload="auto" class="bg-video" id="bg-video">
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<div class="poster" id="poster-container">
+<div class="poster">
   <div class="names">l + d</div>
   <div class="date">03.09.2026</div>
   <div class="info">22:00 · porto — you’ll find out</div>
   <div class="countdown" id="countdown"></div>
+
+  <!-- BOTÃO RSVP sem animação -->
+  <a href="https://forms.gle/YFfshJma97fQJsei7" class="rsvp-button">confirm</a>
 </div>
 
+<!-- MÚSICA -->
+<audio id="bg-music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-  // Contador regressivo
+  // CONTADOR REGRESSIVO
   const eventDate = new Date("2026-09-03T22:00:00").getTime();
-  function updateCountdown(){
+  function updateCountdown() {
     const now = new Date().getTime();
     const distance = eventDate - now;
-    if(distance < 0){ document.getElementById("countdown").innerHTML="it’s happening"; return; }
-    const days = Math.floor(distance/(1000*60*60*24));
-    const hours = Math.floor((distance/(1000*60*60))%24);
-    const minutes = Math.floor((distance/(1000*60))%60);
-    const seconds = Math.floor((distance/1000)%60);
-    document.getElementById("countdown").innerHTML = 
-      days+"d "+String(hours).padStart(2,'0')+":"+String(minutes).padStart(2,'0')+":"+String(seconds).padStart(2,'0');
+    if (distance < 0) {
+      document.getElementById("countdown").innerHTML = "it’s happening";
+      return;
+    }
+    const days = Math.floor(distance / (1000*60*60*24));
+    const hours = Math.floor((distance/(1000*60*60)) % 24);
+    const minutes = Math.floor((distance/(1000*60)) % 60);
+    const seconds = Math.floor((distance/1000) % 60);
+    document.getElementById("countdown").innerHTML =
+      days + "d " + String(hours).padStart(2,'0') + ":" +
+      String(minutes).padStart(2,'0') + ":" +
+      String(seconds).padStart(2,'0');
   }
   updateCountdown();
-  setInterval(updateCountdown,1000);
+  setInterval(updateCountdown, 1000);
 
   // Música só toca no toque
   document.body.addEventListener('click', () => {
     const audio = document.getElementById('bg-music');
     if(audio){ audio.play().catch(()=>{}); }
   }, {once:true});
-
-  // Adiciona botão RSVP somente após o vídeo estar carregado
-  const video = document.getElementById('bg-video');
-  video.addEventListener('canplay', ()=>{
-    const poster = document.getElementById('poster-container');
-    const btn = document.createElement('a');
-    btn.href = "https://forms.gle/YFfshJma97fQJsei7";
-    btn.textContent = "confirm";
-    btn.className = "rsvp-button";
-    poster.appendChild(btn);
-  });
 </script>
-
-<!-- Música -->
-<audio id="bg-music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
 
 </body>
 </html>
