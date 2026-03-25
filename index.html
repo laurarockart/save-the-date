@@ -143,11 +143,6 @@
     function enableMedia() {
       const audio = document.getElementById('bg-music');
       audio.play().catch(() => {});
-
-      const video = document.querySelector('.bg-video');
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
     }
 
     // Escuta qualquer toque na tela (uma vez)
