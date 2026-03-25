@@ -6,66 +6,94 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      height: 100vh;
-      color: #f5f5f5;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
+  margin: 0;
+  height: 100vh;
+  color: #f5f5f5;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0a0a0a;
+}
 
-    .poster {
-      position: relative;
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-    }
+.poster {
+  position: relative;
+  width: 95%;       /* mobile-first */
+  max-width: 600px; /* desktop não cresce demais */
+  text-align: center;
+}
 
-    .names {
-      font-family: 'Inter', sans-serif;
-      font-size: 18px;
-      margin-bottom: 60px;
-      letter-spacing: 6px;
-      opacity: 0.6;
-      text-transform: lowercase;
-    }
+/* Mobile-first: textos mais legíveis */
+.names {
+  font-size: 18px;      /* ligeiramente maior */
+  margin-bottom: 45px;
+  letter-spacing: 4px;
+  opacity: 0.6;
+  text-transform: lowercase;
+}
 
-    .date {
-      font-size: 70px;
-      font-weight: 300;
-      line-height: 1;
-    }
+.date {
+  font-size: 50px;      /* maior, mas ainda elegante */
+  font-weight: 300;
+  line-height: 1;
+}
 
-    .info {
-      margin-top: 15px;
-      font-size: 12px;
-      letter-spacing: 4px;
-      text-transform: lowercase;
-      opacity: 0.7;
-    }
+.info {
+  margin-top: 12px;
+  font-size: 16px;      /* mais fácil de ler */
+  letter-spacing: 3px;
+  text-transform: lowercase;
+  opacity: 0.7;
+  white-space: nowrap;   /* evita quebras */
+}
 
-    .countdown {
-      margin-top: 80px;
-      font-size: 12px;
-      opacity: 0.35;
-      letter-spacing: 3px;
-    }
+.countdown {
+  margin-top: 60px;
+  font-size: 16px;      /* legível mas discreto */
+  opacity: 0.35;
+  letter-spacing: 3px;
+}
 
-    /* Vídeo de fundo */
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      opacity: 0.15;
-      filter: blur(8px) contrast(120%) grayscale(100%);
-    }
+/* Vídeo de fundo */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.15;
+  filter: blur(8px) contrast(120%) grayscale(100%);
+}
+
+/* Desktop: mantém o visual pequeno e espaçado, mas com leve aumento */
+@media (min-width: 600px) {
+  .poster {
+    width: 600px;  
+  }
+
+  .names {
+    font-size: 14px;     /* pequeno, mas mais legível que antes */
+    margin-bottom: 60px;
+    letter-spacing: 6px;
+  }
+
+  .date {
+    font-size: 70px;     /* mantém como foco principal */
+  }
+
+  .info {
+    font-size: 14px;
+    letter-spacing: 4px;
+  }
+
+  .countdown {
+    font-size: 14px;
+    letter-spacing: 3px;
+  }
+}
   </style>
 </head>
 
