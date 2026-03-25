@@ -1,184 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03.09.2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
-  
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      color: #f5f5f5;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03.09.2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #0a0a0a;
+    color: #f5f5f5;
+  }
 
-    .poster {
-      position: relative;
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-      padding: 0 5%;
-      box-sizing: border-box;
-    }
+  .poster {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    padding: 0 5%;
+    box-sizing: border-box;
+    z-index: 2;
+  }
 
-    /* TEXTO RESPONSIVO */
-    .names {
-      font-size: 6vw;
-      margin-bottom: 4vh;
-      letter-spacing: 6px;
-      opacity: 0.6;
-      text-transform: lowercase;
-    }
+  .names { font-size: 6vw; margin-bottom: 4vh; letter-spacing: 6px; opacity: 0.6; text-transform: lowercase; }
+  .date { font-size: 12vw; font-weight: 300; line-height: 1.1; word-break: break-word; }
+  .info { margin-top: 2vh; font-size: 3vw; letter-spacing: 4px; text-transform: lowercase; opacity: 0.7; }
+  .countdown { margin-top: 4vh; font-size: 3vw; opacity: 0.35; letter-spacing: 3px; }
 
-    .date {
-      font-size: 12vw;
-      font-weight: 300;
-      line-height: 1.1;
-      word-break: break-word;
-    }
+  /* Botão RSVP sem animação no carregamento */
+  .rsvp-button {
+    margin-top: 50px;
+    display: inline-block;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #f5f5f5;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: lowercase;
+    padding: 12px 28px;
+    position: relative;
+    background: transparent;
+    transition: background 0.3s, border-color 0.3s; /* hover apenas */
+    z-index: 2;
+  }
+  .rsvp-button:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.6);
+  }
 
-    .info {
-      margin-top: 2vh;
-      font-size: 3vw;
-      letter-spacing: 4px;
-      text-transform: lowercase;
-      opacity: 0.7;
-    }
+  .bg-video {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    z-index:0;
+    opacity:0.25;
+    filter: blur(8px) contrast(120%) grayscale(100%);
+  }
 
-    .countdown {
-      margin-top: 4vh;
-      font-size: 3vw;
-      opacity: 0.35;
-      letter-spacing: 3px;
-    }
-
-    /* BOTÃO RSVP */
-    .rsvp-button {
-      margin-top: 50px;
-      display: inline-block;
-      text-decoration: none;
-
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #f5f5f5;
-
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      letter-spacing: 3px;
-      text-transform: lowercase;
-
-      padding: 12px 28px;
-
-      opacity: 0; /* começa invisível */
-      transition: opacity 1.5s ease;
-    }
-
-    .rsvp-button.show {
-      opacity: 1;
-    }
-
-    .rsvp-button:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.6);
-    }
-
-    /* VÍDEO */
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      opacity: 0.25;
-      filter: blur(8px) contrast(120%) grayscale(100%);
-    }
-
-    /* DESKTOP AJUSTE */
-    @media (min-width: 600px) {
-      .names { font-size: 36px; margin-bottom: 60px; }
-      .date { font-size: 70px; }
-      .info { font-size: 12px; }
-      .countdown { font-size: 12px; }
-    }
-  </style>
+  @media (min-width: 600px){
+    .names { font-size:36px; margin-bottom:60px; }
+    .date { font-size:70px; }
+    .info { font-size:12px; }
+    .countdown { font-size:12px; }
+  }
+</style>
 </head>
-
 <body>
-  <div class="poster">
-    <div class="names">l + d</div>
-    <div class="date">03.09.2026</div>
-    <div class="info">22:00 · porto — you’ll find out</div>
-    <div class="countdown" id="countdown"></div>
 
-    <!-- BOTÃO CONFIRM -->
-    <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp-button">
-      confirm
-    </a>
-  </div>
+<div class="poster">
+  <div class="names">l + d</div>
+  <div class="date">03.09.2026</div>
+  <div class="info">22:00 · porto — you’ll find out</div>
+  <div class="countdown" id="countdown"></div>
+  <a href="https://forms.gle/YFfshJma97fQJsei7" class="rsvp-button">confirm</a>
+</div>
 
-  <!-- VÍDEO -->
-  <video autoplay muted loop playsinline preload="auto" class="bg-video">
-    <source src="video.mp4" type="video/mp4">
-  </video>
+<!-- Vídeo autoplay + muted + playsinline + loop -->
+<video autoplay muted loop playsinline preload="auto" class="bg-video" id="bg-video">
+  <source src="video.mp4" type="video/mp4">
+</video>
 
-  <!-- MÚSICA -->
-  <audio id="bg-music" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
+<!-- Música só com toque -->
+<audio id="bg-music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    // Mostrar botão RSVP após 1,5s (mesma animação)
-    setTimeout(() => {
-      document.querySelector('.rsvp-button').classList.add('show');
-    }, 1500);
+<script>
+  // Contador regressivo
+  const eventDate = new Date("2026-09-03T22:00:00").getTime();
+  function updateCountdown(){
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+    if(distance < 0){ document.getElementById("countdown").innerHTML="it’s happening"; return; }
+    const days = Math.floor(distance/(1000*60*60*24));
+    const hours = Math.floor((distance/(1000*60*60))%24);
+    const minutes = Math.floor((distance/(1000*60))%60);
+    const seconds = Math.floor((distance/1000)%60);
+    document.getElementById("countdown").innerHTML = 
+      days+"d "+String(hours).padStart(2,'0')+":"+String(minutes).padStart(2,'0')+":"+String(seconds).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown,1000);
 
-    // Primeiro toque no mobile dispara música e força vídeo a tocar
-    function enableMedia() {
-      const audio = document.getElementById('bg-music');
-      audio.play().catch(() => {});
+  // Música só toca no primeiro toque
+  document.body.addEventListener('click', () => {
+    const audio = document.getElementById('bg-music');
+    audio.play().catch(()=>{});
+  }, {once:true});
+</script>
 
-      const video = document.querySelector('.bg-video');
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    }
-
-    // Escuta qualquer toque na tela (uma vez)
-    document.body.addEventListener('click', enableMedia, {once:true});
-
-    // Contador regressivo
-    const eventDate = new Date("2026-09-03T22:00:00").getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = eventDate - now;
-
-      if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "it’s happening";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000*60*60*24));
-      const hours = Math.floor((distance/(1000*60*60)) % 24);
-      const minutes = Math.floor((distance/(1000*60)) % 60);
-      const seconds = Math.floor((distance/1000) % 60);
-
-      document.getElementById("countdown").innerHTML =
-        days + "d " +
-        String(hours).padStart(2,'0') + ":" +
-        String(minutes).padStart(2,'0') + ":" +
-        String(seconds).padStart(2,'0');
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
 </body>
 </html>
