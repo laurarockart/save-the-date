@@ -17,14 +17,25 @@
     color: #f5f5f5;
   }
 
+  /* Vídeo de fundo */
+  .bg-video {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.25;
+    filter: blur(8px) contrast(120%) grayscale(100%);
+  }
+
   .poster {
     position: relative;
+    z-index: 2;
     width: 90%;
     max-width: 600px;
     text-align: center;
     padding: 0 5%;
     box-sizing: border-box;
-    z-index: 2;
   }
 
   .names { font-size: 6vw; margin-bottom: 4vh; letter-spacing: 6px; opacity: 0.6; text-transform: lowercase; }
@@ -32,7 +43,7 @@
   .info { margin-top: 2vh; font-size: 3vw; letter-spacing: 4px; text-transform: lowercase; opacity: 0.7; }
   .countdown { margin-top: 4vh; font-size: 3vw; opacity: 0.35; letter-spacing: 3px; }
 
-  /* Botão RSVP sem animação no carregamento */
+  /* Botão RSVP */
   .rsvp-button {
     margin-top: 50px;
     display: inline-block;
@@ -45,24 +56,11 @@
     padding: 12px 28px;
     position: relative;
     background: transparent;
-    transition: background 0.3s, border-color 0.3s; /* hover apenas */
-    z-index: 2;
+    transition: background 0.3s, border-color 0.3s;
   }
   .rsvp-button:hover {
     background: rgba(255,255,255,0.1);
     border-color: rgba(255,255,255,0.6);
-  }
-
-  .bg-video {
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    object-fit: cover;
-    z-index:0;
-    opacity:0.25;
-    filter: blur(8px) contrast(120%) grayscale(100%);
   }
 
   @media (min-width: 600px){
@@ -75,23 +73,17 @@
 </head>
 <body>
 
-<div class="poster">
-  <div class="names">l + d</div>
-  <div class="date">03.09.2026</div>
-  <div class="info">22:00 · porto — you’ll find out</div>
-  <div class="countdown" id="countdown"></div>
-  <a href="https://forms.gle/YFfshJma97fQJsei7" class="rsvp-button">confirm</a>
-</div>
-
-<!-- Vídeo autoplay + muted + playsinline + loop -->
+<!-- Vídeo no topo do DOM -->
 <video autoplay muted loop playsinline preload="auto" class="bg-video" id="bg-video">
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- Música só com toque -->
-<audio id="bg-music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
+<div class="poster" id="poster-container">
+  <div class="names">l + d</div>
+  <div class="date">03.09.2026</div>
+  <div class="info">22:00 · porto — you’ll find out</div>
+  <div class="countdown" id="countdown"></div>
+</div>
 
 <script>
   // Contador regressivo
@@ -110,12 +102,28 @@
   updateCountdown();
   setInterval(updateCountdown,1000);
 
-  // Música só toca no primeiro toque
+  // Música só toca no toque
   document.body.addEventListener('click', () => {
     const audio = document.getElementById('bg-music');
-    audio.play().catch(()=>{});
+    if(audio){ audio.play().catch(()=>{}); }
   }, {once:true});
+
+  // Adiciona botão RSVP somente após o vídeo estar carregado
+  const video = document.getElementById('bg-video');
+  video.addEventListener('canplay', ()=>{
+    const poster = document.getElementById('poster-container');
+    const btn = document.createElement('a');
+    btn.href = "https://forms.gle/YFfshJma97fQJsei7";
+    btn.textContent = "confirm";
+    btn.className = "rsvp-button";
+    poster.appendChild(btn);
+  });
 </script>
+
+<!-- Música -->
+<audio id="bg-music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
 </body>
 </html>
