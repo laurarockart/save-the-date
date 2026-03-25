@@ -119,18 +119,26 @@
     <!-- Frase "tap for fun" -->
 <div id="tap-hint" style="
   position: fixed;
-  bottom: 20px;
+  bottom: 60px;        /* ligeiramente acima do rodapé */
   width: 100%;
   text-align: center;
   color: #f5f5f5;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  opacity: 0.7;
-  pointer-events: none;
+  font-size: 24px;
+  opacity: 0.9;
+  text-shadow: 0 0 10px rgba(255,255,255,0.7);
   z-index: 3;
+  pointer-events: none;
+  animation: bounce 1.2s infinite alternate;
 ">
-  tap for fun
+  ☝🏼 tap for fun
 </div>
+
+<style>
+  @keyframes bounce {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-8px); } /* sobe 8px e volta */
+  }
+</style>
 
     <!-- BOTÃO CONFIRM -->
     <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp-button">
