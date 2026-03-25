@@ -16,6 +16,7 @@
     background: #0a0a0a;
     color: #f5f5f5;
   }
+
   .poster {
     position: relative;
     width: 90%;
@@ -23,12 +24,15 @@
     text-align: center;
     padding: 0 5%;
     box-sizing: border-box;
-    z-index: 2;
+    z-index: 1;
   }
+
   .names { font-size: 6vw; margin-bottom: 4vh; letter-spacing: 6px; opacity: 0.6; text-transform: lowercase; }
   .date { font-size: 12vw; font-weight: 300; line-height: 1.1; word-break: break-word; }
   .info { margin-top: 2vh; font-size: 3vw; letter-spacing: 4px; text-transform: lowercase; opacity: 0.7; }
   .countdown { margin-top: 4vh; font-size: 3vw; opacity: 0.35; letter-spacing: 3px; }
+
+  /* Botão RSVP - sem animação de fade-in */
   .rsvp-button {
     margin-top: 50px;
     display: inline-block;
@@ -39,13 +43,16 @@
     letter-spacing: 3px;
     text-transform: lowercase;
     padding: 12px 28px;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-    z-index: 2;
+    z-index: 1;
     position: relative;
+    background: transparent;
+    transition: background 0.3s, border-color 0.3s; /* apenas hover suave */
   }
-  .rsvp-button.show { opacity: 1; }
-  .rsvp-button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+  .rsvp-button:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.6);
+  }
+
   .bg-video {
     position: fixed;
     top: 0;
@@ -53,18 +60,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 0;
+    z-index: -1;
     opacity: 0.25;
     filter: blur(8px) contrast(120%) grayscale(100%);
   }
-  /* Overlay invisível para primeiro toque */
-  #touch-overlay {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    z-index:3;
-    background: transparent;
-  }
+
   @media (min-width: 600px) {
     .names { font-size: 36px; margin-bottom: 60px; }
     .date { font-size: 70px; }
@@ -83,29 +83,21 @@
   <a href="https://forms.gle/YFfshJma97fQJsei7" class="rsvp-button">confirm</a>
 </div>
 
-<!-- Vídeo autoplay + loop + muted + playsinline -->
 <video autoplay muted loop playsinline preload="auto" class="bg-video" id="bg-video">
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- Música só com toque -->
 <audio id="bg-music" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Overlay invisível -->
-<div id="touch-overlay"></div>
-
 <script>
-  // Mostrar botão RSVP após 1,5s
-  setTimeout(()=>{ document.querySelector('.rsvp-button').classList.add('show'); }, 1500);
-
   // Contador regressivo
   const eventDate = new Date("2026-09-03T22:00:00").getTime();
   function updateCountdown(){
     const now = new Date().getTime();
     const distance = eventDate - now;
-    if(distance<0){ document.getElementById("countdown").innerHTML="it’s happening"; return; }
+    if(distance < 0){ document.getElementById("countdown").innerHTML="it’s happening"; return; }
     const days = Math.floor(distance/(1000*60*60*24));
     const hours = Math.floor((distance/(1000*60*60))%24);
     const minutes = Math.floor((distance/(1000*60))%60);
@@ -116,14 +108,10 @@
   updateCountdown();
   setInterval(updateCountdown,1000);
 
-  // Primeiro toque: desbloquear vídeo e música no mobile
-  const overlay = document.getElementById('touch-overlay');
-  overlay.addEventListener('click', ()=>{
+  // Música só toca no primeiro toque
+  document.body.addEventListener('click', () => {
     const audio = document.getElementById('bg-music');
-    const video = document.getElementById('bg-video');
-    video.play().catch(()=>{});
     audio.play().catch(()=>{});
-    overlay.remove(); // Remove overlay invisível após toque
   }, {once:true});
 </script>
 
