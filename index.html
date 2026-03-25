@@ -22,36 +22,39 @@
       width: 90%;
       max-width: 600px;
       text-align: center;
+      padding: 0 5%; /* garante margem nos lados */
+      box-sizing: border-box;
     }
 
-    /* MOBILE-FIRST: mantém o estilo clean do desktop */
+    /* Responsivo com texto escalável */
     .names {
-      font-size: 12px;      /* igual ao desktop */
-      margin-bottom: 60px;
+      font-size: 4vw; /* escala conforme largura da tela */
+      margin-bottom: 4vh;
       letter-spacing: 6px;
       opacity: 0.6;
       text-transform: lowercase;
     }
 
     .date {
-      font-size: 70px;      /* igual ao desktop */
+      font-size: 12vw; /* escala automaticamente */
       font-weight: 300;
-      line-height: 1;
-      white-space: normal;   /* evita corte do texto */
+      line-height: 1.1;
+      white-space: normal;
+      word-break: break-word;
     }
 
     .info {
-      margin-top: 20px;
-      font-size: 12px;      /* igual ao desktop */
+      margin-top: 2vh;
+      font-size: 3vw; /* escala conforme tela */
       letter-spacing: 4px;
       text-transform: lowercase;
       opacity: 0.7;
-      white-space: normal;   /* permite quebra se necessário */
+      white-space: normal;
     }
 
     .countdown {
-      margin-top: 60px;
-      font-size: 12px;      /* igual ao desktop */
+      margin-top: 4vh;
+      font-size: 3vw;
       opacity: 0.35;
       letter-spacing: 3px;
     }
@@ -65,17 +68,13 @@
       height: 100%;
       object-fit: cover;
       z-index: -1;
-      opacity: 0.15;
-      filter: blur(8px) contrast(120%) grayscale(100%);
+      opacity: 0.35; /* mais visível */
+      filter: blur(5px) contrast(120%) grayscale(100%);
     }
 
-    /* DESKTOP: mantém proporções */
+    /* Ajustes para desktop */
     @media (min-width: 600px) {
-      .poster {
-        width: 600px;
-      }
-
-      .names { font-size: 12px; }
+      .names { font-size: 36px; margin-bottom: 60px; }
       .date { font-size: 70px; }
       .info { font-size: 12px; }
       .countdown { font-size: 12px; }
@@ -138,4 +137,4 @@
     setInterval(updateCountdown, 1000);
   </script>
 </body>
-</html>
+</html> 
