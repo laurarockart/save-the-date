@@ -117,19 +117,28 @@
     <div class="info">22:00 · porto — you’ll find out</div>
     <div class="countdown" id="countdown"></div>
     <!-- Frase "tap for fun" -->
-<!-- Pointer "click" -->
 <div id="tap-hint" style="
   position: fixed;
   bottom: 60px;        /* ligeiramente acima do rodapé */
   width: 100%;
   text-align: center;
+  color: #ffffff;
+  font-size: 24px;
+  opacity: 0.9;
+  text-shadow: 0 0 10px rgba(255,255,255,0.7);
   z-index: 3;
   pointer-events: none;
+  animation: bounce 1.2s infinite alternate;
 ">
-  <img src="A032E353-6C06-4FB1-B632-B6E9A757A994.png" 
-       alt="tap pointer" 
-       style="width: 48px; height: 48px; filter: brightness(1.2); animation: bounce 1.2s infinite alternate;">
+  ☝🏼 tap for fun
 </div>
+
+<style>
+  @keyframes bounce {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-8px); } /* sobe 8px e volta */
+  }
+</style>
 
 <style>
 @keyframes bounce {
