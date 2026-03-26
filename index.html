@@ -20,17 +20,23 @@ body {
 
   /* FUNDO COM LUZ + GRAIN */
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.7), transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.5), transparent 60%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), transparent 70%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(0,0,0,0.015),
-      rgba(0,0,0,0.015) 1px,
-      transparent 1px,
-      transparent 3px
-    ),
-    #f2f2f2;
+  radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
+  radial-gradient(circle at 75% 70%, rgba(255,255,255,0.6), transparent 60%),
+  radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 70%),
+  
+  /* luz tipo flash */
+  radial-gradient(circle at 40% 60%, rgba(255,255,255,0.2), transparent 80%),
+
+  /* grain mais visível */
+  repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.03),
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  ),
+
+  #efefef;
 }
 
 body.active {
@@ -85,31 +91,105 @@ body.active .initial {
 /* TAP */
 .tap {
   position: absolute;
-  top: -60px;
-  right: 12%;
-  font-size: 2.8vw;
-  letter-spacing: 2px;
-  font-weight: 500;
-  animation: bounce 1s infinite alternate;
-  transition: opacity 0.5s ease;
-}
+  top: -80px;
+  right: 10%;
 
-body.active .tap {
-  opacity: 0;
-}
-
-.tap span {
-  color: #000;
+  font-size: 2.6vw;
+  letter-spacing: 3px;
   font-weight: 600;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  animation: pulse 2.2s infinite;
+
+  /* glow base */
+  text-shadow:
+    0 0 6px rgba(0,0,0,0.15),
+    0 0 12px rgba(0,0,0,0.08);
+
+  transition: all 0.3s ease;
 }
 
-body.active .tap span {
+/* palavra principal */
+.tap span {
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.tap::before {
+  content: "tap";
+  position: absolute;
+  top: -14px;
+  right: 0;
+  font-size: 10px;
+  opacity: 0.4;
+  letter-spacing: 2px;
+}
+  
+/* GLITCH subtil */
+.tap::after {
+  content: "🖤 dress code";
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+
+  color: #000;
+  transform: translate(0,0);
+}
+
+/* glitch trigger */
+.tap:hover::after {
+  animation: glitch 0.3s linear;
+}
+
+/* modo dark */
+body.active .tap {
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.25),
+    0 0 18px rgba(255,255,255,0.1);
+}
+
+body.active .tap::after {
   color: #fff;
 }
 
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
+/* PULSE (em vez de bounce) */
+@keyframes pulse {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-6px); opacity: 0.85; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* GLITCH */
+@keyframes glitch {
+  0% {
+    transform: translate(0,0);
+    opacity: 0.2;
+  }
+  20% {
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    transform: translate(2px, -1px);
+  }
+  60% {
+    transform: translate(-1px, 2px);
+  }
+  80% {
+    transform: translate(1px, -2px);
+  }
+  100% {
+    transform: translate(0,0);
+    opacity: 0;
+  }
+}
+
+/* HOVER feedback */
+.tap:hover {
+  transform: scale(1.05);
+}
 }
 
 /* REVEAL */
@@ -134,9 +214,9 @@ body.active .reveal {
   display: inline-block;
   text-decoration: none;
 
-  border: 1px solid rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,0,0,0.5);
   color: #111;
-  background: rgba(0,0,0,0.05); /* leve preenchimento */
+  background: transparent;
 
   font-size: 12px;
   letter-spacing: 3px;
@@ -144,17 +224,31 @@ body.active .reveal {
 
   opacity: 1;
   transition: all 0.4s ease;
+
+  /* destaque subtil */
+  box-shadow: 0 0 0 rgba(0,0,0,0);
 }
 
-/* estado dark */
+/* dark mode */
 body.active .rsvp {
-  border: 1px solid rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.5);
   color: #f5f5f5;
-  background: rgba(255,255,255,0.05);
 }
 
+/* hover com glow */
 .rsvp:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 10px rgba(0,0,0,0.15),
+    0 0 20px rgba(0,0,0,0.05);
+}
+
+body.active .rsvp:hover {
+  box-shadow:
+    0 0 12px rgba(255,255,255,0.25),
+    0 0 25px rgba(255,255,255,0.1);
+}
 }
 
 /* VIDEO */
@@ -190,9 +284,9 @@ body.active .bg-video {
 <div class="poster">
 
   <!-- TAP -->
-  <div class="tap">
-    🖤 <span>dress code</span>
-  </div>
+<div class="tap">
+  🖤 <span>dress code</span>
+</div>
 
   <!-- INITIAL -->
   <div class="initial">
@@ -238,6 +332,26 @@ function activateExperience() {
 }
 
 document.body.addEventListener("click", activateExperience, { once: true });
+
+  const audio = document.getElementById("music");
+
+/* parar ao sair da página */
+window.addEventListener("beforeunload", () => {
+  audio.pause();
+  audio.currentTime = 0;
+});
+
+/* parar quando muda de tab */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    audio.pause();
+  }
+});
+
+/* parar ao clicar no botão */
+document.querySelector(".rsvp").addEventListener("click", () => {
+  audio.pause();
+});
 
 /* COUNTDOWN */
 const eventDate = new Date("2026-09-03T22:00:00").getTime();
