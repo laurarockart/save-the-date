@@ -18,15 +18,17 @@ body {
   color: #111;
   transition: all 1s ease;
 
-  background: 
-    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6), transparent 60%),
-    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.4), transparent 60%),
+  /* FUNDO COM LUZ + GRAIN */
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.5), transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), transparent 70%),
     repeating-linear-gradient(
       0deg,
-      rgba(0,0,0,0.02),
-      rgba(0,0,0,0.02) 1px,
+      rgba(0,0,0,0.015),
+      rgba(0,0,0,0.015) 1px,
       transparent 1px,
-      transparent 2px
+      transparent 3px
     ),
     #f2f2f2;
 }
@@ -126,26 +128,33 @@ body.active .reveal {
   opacity: 1;
 }
 
-/* RSVP BUTTON */
+/* BOTÃO (CORRIGIDO) */
 .rsvp {
   margin-top: 5vh;
   display: inline-block;
   text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.4);
-  color: inherit;
+
+  border: 1px solid rgba(0,0,0,0.4);
+  color: #111;
+  background: rgba(0,0,0,0.05); /* leve preenchimento */
+
   font-size: 12px;
   letter-spacing: 3px;
   padding: 12px 28px;
-  opacity: 0;
-  transition: all 1s ease;
+
+  opacity: 1;
+  transition: all 0.4s ease;
 }
 
+/* estado dark */
 body.active .rsvp {
-  opacity: 1;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #f5f5f5;
+  background: rgba(255,255,255,0.05);
 }
 
 .rsvp:hover {
-  background: rgba(255,255,255,0.1);
+  transform: scale(1.05);
 }
 
 /* VIDEO */
@@ -200,7 +209,7 @@ body.active .bg-video {
   <!-- COUNTDOWN -->
   <div class="countdown" id="countdown"></div>
 
-  <!-- RSVP BUTTON -->
+  <!-- BOTÃO -->
   <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp">
     confirm
   </a>
