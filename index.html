@@ -18,7 +18,6 @@ body {
   color: #111;
   transition: all 1s ease;
 
-  /* FUNDO COM TEXTURA + LUZ */
   background: 
     radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6), transparent 60%),
     radial-gradient(circle at 70% 80%, rgba(255,255,255,0.4), transparent 60%),
@@ -45,7 +44,7 @@ body.active {
   z-index: 2;
 }
 
-/* TEXTO INICIAL */
+/* INITIAL */
 .initial {
   transition: opacity 0.8s ease;
 }
@@ -54,7 +53,7 @@ body.active .initial {
   opacity: 0;
 }
 
-/* TEXTO */
+/* TEXT */
 .names {
   font-size: 6vw;
   margin-bottom: 4vh;
@@ -75,13 +74,13 @@ body.active .initial {
 
 /* COUNTDOWN */
 .countdown {
-  margin-top: 4vh;
+  margin-top: 5vh;
   font-size: 3vw;
   opacity: 0.4;
   letter-spacing: 3px;
 }
 
-/* TAP (DESTAQUE) */
+/* TAP */
 .tap {
   position: absolute;
   top: -60px;
@@ -90,6 +89,11 @@ body.active .initial {
   letter-spacing: 2px;
   font-weight: 500;
   animation: bounce 1s infinite alternate;
+  transition: opacity 0.5s ease;
+}
+
+body.active .tap {
+  opacity: 0;
 }
 
 .tap span {
@@ -101,7 +105,6 @@ body.active .tap span {
   color: #fff;
 }
 
-/* ANIMAÇÃO */
 @keyframes bounce {
   from { transform: translateY(0); }
   to { transform: translateY(-10px); }
@@ -111,7 +114,7 @@ body.active .tap span {
 .reveal {
   position: absolute;
   width: 100%;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   font-size: 4vw;
   letter-spacing: 3px;
@@ -121,6 +124,28 @@ body.active .tap span {
 
 body.active .reveal {
   opacity: 1;
+}
+
+/* RSVP BUTTON */
+.rsvp {
+  margin-top: 5vh;
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: inherit;
+  font-size: 12px;
+  letter-spacing: 3px;
+  padding: 12px 28px;
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+body.active .rsvp {
+  opacity: 1;
+}
+
+.rsvp:hover {
+  background: rgba(255,255,255,0.1);
 }
 
 /* VIDEO */
@@ -160,7 +185,7 @@ body.active .bg-video {
     🖤 <span>dress code</span>
   </div>
 
-  <!-- TEXTO INICIAL -->
+  <!-- INITIAL -->
   <div class="initial">
     <div class="names">l + d</div>
     <div class="date">03.09.2026</div>
@@ -175,14 +200,19 @@ body.active .bg-video {
   <!-- COUNTDOWN -->
   <div class="countdown" id="countdown"></div>
 
+  <!-- RSVP BUTTON -->
+  <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp">
+    confirm
+  </a>
+
 </div>
 
-<!-- VIDEO (SEM SOM) -->
+<!-- VIDEO -->
 <video class="bg-video" muted loop playsinline preload="auto">
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- MÚSICA LOCAL -->
+<!-- AUDIO -->
 <audio id="music" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
