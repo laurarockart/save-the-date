@@ -20,13 +20,11 @@ body {
   transition: all 1s ease;
 }
 
-/* ATIVO */
 body.active {
   background: #0a0a0a;
   color: #f5f5f5;
 }
 
-/* CONTAINER */
 .poster {
   position: relative;
   width: 90%;
@@ -42,10 +40,9 @@ body.active {
 
 body.active .initial {
   opacity: 0;
-  pointer-events: none;
 }
 
-/* TEXTO */
+/* TEXTO BASE */
 .names {
   font-size: 6vw;
   margin-bottom: 4vh;
@@ -64,11 +61,39 @@ body.active .initial {
   opacity: 0.7;
 }
 
-/* TEASE */
-.tease {
-  margin-top: 5vh;
+/* COUNTDOWN (SEMPRE VISÍVEL) */
+.countdown {
+  margin-top: 4vh;
   font-size: 3vw;
+  opacity: 0.4;
   letter-spacing: 3px;
+}
+
+/* DRESS CODE (DESTAQUE) */
+.tap {
+  position: absolute;
+  top: -30px;
+  right: 10%;
+  font-size: 2.8vw;
+  letter-spacing: 2px;
+  font-weight: 500;
+  animation: bounce 1s infinite alternate;
+}
+
+/* destaque na palavra */
+.tap span {
+  color: #000;
+  font-weight: 600;
+}
+
+body.active .tap span {
+  color: #fff;
+}
+
+/* animação */
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
 }
 
 /* REVEAL */
@@ -77,43 +102,14 @@ body.active .initial {
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 6vw;
-  letter-spacing: 4px;
+  font-size: 4vw; /* MAIS PEQUENO */
+  letter-spacing: 3px;
   opacity: 0;
   transition: opacity 1.2s ease;
 }
 
 body.active .reveal {
   opacity: 1;
-}
-
-/* POINTER */
-.pointer {
-  position: absolute;
-  top: -20px;
-  right: 30%;
-  animation: bounce 1s infinite alternate;
-}
-
-.pointer img {
-  width: 36px;
-}
-
-/* fallback se imagem falhar */
-.pointer::after {
-  content: "↑";
-  font-size: 24px;
-  display: none;
-}
-
-.pointer img:invalid + .pointer::after {
-  display: block;
-}
-
-/* animação */
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-8px); }
 }
 
 /* VIDEO */
@@ -138,7 +134,8 @@ body.active .bg-video {
 @media (min-width: 600px) {
   .names { font-size: 36px; }
   .date { font-size: 70px; }
-  .info, .tease { font-size: 12px; }
+  .info, .countdown { font-size: 12px; }
+  .tap { font-size: 12px; }
 }
 </style>
 </head>
@@ -147,24 +144,25 @@ body.active .bg-video {
 
 <div class="poster">
 
+  <!-- TAP (DESTAQUE VISUAL) -->
+  <div class="tap">
+    👉 <span>dress code</span>
+  </div>
+
   <!-- TEXTO INICIAL -->
   <div class="initial">
     <div class="names">l + d</div>
     <div class="date">03.09.2026</div>
     <div class="info">22:00 · porto — you’ll find out</div>
-
-    <div class="tease">tap to reveal dress code</div>
-
-    <!-- POINTER -->
-    <div class="pointer">
-      <img src="pointer.png" alt="">
-    </div>
   </div>
 
   <!-- REVEAL -->
   <div class="reveal">
     all black<br>no exceptions
   </div>
+
+  <!-- COUNTDOWN (SEMPRE) -->
+  <div class="countdown" id="countdown"></div>
 
 </div>
 
@@ -173,7 +171,7 @@ body.active .bg-video {
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- ÁUDIO (METE AQUI A TUA MÚSICA) -->
+<!-- MÚSICA -->
 <audio id="music" loop>
   <source src="TUA-MUSICA.mp3" type="audio/mpeg">
 </audio>
@@ -185,13 +183,38 @@ function activateExperience() {
   const video = document.querySelector(".bg-video");
   const audio = document.getElementById("music");
 
-  video.muted = true;
   video.play().catch(() => {});
-
   audio.play().catch(() => {});
 }
 
 document.body.addEventListener("click", activateExperience, { once: true });
+
+/* COUNTDOWN */
+const eventDate = new Date("2026-09-03T22:00:00").getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = eventDate - now;
+
+  if (distance < 0) {
+    document.getElementById("countdown").innerHTML = "it’s happening";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000*60*60*24));
+  const hours = Math.floor((distance/(1000*60*60)) % 24);
+  const minutes = Math.floor((distance/(1000*60)) % 60);
+  const seconds = Math.floor((distance/1000) % 60);
+
+  document.getElementById("countdown").innerHTML =
+    days + "d " +
+    String(hours).padStart(2,'0') + ":" +
+    String(minutes).padStart(2,'0') + ":" +
+    String(seconds).padStart(2,'0');
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 
 </body>
