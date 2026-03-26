@@ -54,7 +54,7 @@ body.active {
   position: relative;
 }
 
-/* TEXT RESPONSIVO (FIX PRINCIPAL) */
+/* NAMES (AGORA FIXO) */
 .names {
   font-size: clamp(20px, 4vw, 32px);
   margin-bottom: 30px;
@@ -62,6 +62,16 @@ body.active {
   opacity: 0.6;
 }
 
+/* DATE + INFO DESAPARECEM */
+.initial {
+  transition: opacity 0.8s ease;
+}
+
+body.active .initial {
+  opacity: 0;
+}
+
+/* TEXT */
 .date {
   font-size: clamp(42px, 10vw, 80px);
 }
@@ -105,22 +115,12 @@ body.active .tap {
   pointer-events: none;
 }
 
-/* ANIMAÇÃO MELHORADA */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
-/* INITIAL */
-.initial {
-  transition: opacity 0.8s ease;
-}
-
-body.active .initial {
-  opacity: 0;
-}
-
-/* REVEAL (FIX CENTRADO) */
+/* REVEAL */
 .reveal {
   display: flex;
   flex-direction: column;
@@ -195,12 +195,14 @@ body.active .bg-video {
 
 <div class="poster">
 
+  <!-- NAMES (FIXO SEMPRE) -->
+  <div class="names">l + d</div>
+
   <!-- TAP -->
   <div class="tap">🖤 <span>dress code</span></div>
 
   <!-- INITIAL -->
   <div class="initial">
-    <div class="names">l + d</div>
     <div class="date">03.09.2026</div>
     <div class="info">22:00 · porto — you’ll find out</div>
   </div>
@@ -280,6 +282,9 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
