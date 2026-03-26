@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>03.09.2026</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-body {
+
+/* RESET IMPORTANTE */
+html, body {
   margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* BASE */
+body {
   height: 100vh;
   font-family: 'Inter', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   color: #111;
   transition: all 1s ease;
 
-  /* FUNDO COM LUZ + GRAIN */
+  /* FUNDO TEXTURADO */
   background:
-  radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
-  radial-gradient(circle at 75% 70%, rgba(255,255,255,0.6), transparent 60%),
-  radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 70%),
-  
-  /* luz tipo flash */
-  radial-gradient(circle at 40% 60%, rgba(255,255,255,0.2), transparent 80%),
-
-  /* grain mais visível */
-  repeating-linear-gradient(
-    0deg,
-    rgba(0,0,0,0.03),
-    rgba(0,0,0,0.03) 1px,
-    transparent 1px,
-    transparent 2px
-  ),
-
-  #efefef;
+    radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 70%),
+    radial-gradient(circle at 40% 60%, rgba(255,255,255,0.2), transparent 80%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.03),
+      rgba(0,0,0,0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    ),
+    #efefef;
 }
 
 body.active {
@@ -44,12 +48,14 @@ body.active {
   color: #f5f5f5;
 }
 
+/* LAYOUT */
 .poster {
   position: relative;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
+  padding: 0 20px;
+  box-sizing: border-box;
   text-align: center;
-  z-index: 2;
 }
 
 /* INITIAL */
@@ -82,114 +88,56 @@ body.active .initial {
 
 /* COUNTDOWN */
 .countdown {
-  margin-top: 5vh;
-  font-size: 3vw;
-  opacity: 0.4;
-  letter-spacing: 3px;
+  margin-top: 6vh;
+  font-size: 4vw;
+  letter-spacing: 4px;
+  opacity: 0.7;
+  text-shadow: 0 0 8px rgba(0,0,0,0.08);
 }
 
-/* TAP */
+body.active .countdown {
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* TAP (corrigido mobile) */
 .tap {
   position: absolute;
-  top: -80px;
-  right: 10%;
+  top: -50px;
+  right: 20px;
 
-  font-size: 2.6vw;
-  letter-spacing: 3px;
+  font-size: 12px;
+  max-width: 140px;
+  text-align: right;
+  white-space: nowrap;
+
   font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
 
   cursor: pointer;
+  animation: pulse 2s infinite;
 
-  animation: pulse 2.2s infinite;
-
-  /* glow base */
   text-shadow:
     0 0 6px rgba(0,0,0,0.15),
     0 0 12px rgba(0,0,0,0.08);
-
-  transition: all 0.3s ease;
 }
 
-/* palavra principal */
 .tap span {
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
 }
 
-.tap::before {
-  content: "tap";
-  position: absolute;
-  top: -14px;
-  right: 0;
-  font-size: 10px;
-  opacity: 0.4;
-  letter-spacing: 2px;
-}
-  
-/* GLITCH subtil */
-.tap::after {
-  content: "🖤 dress code";
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-
-  color: #000;
-  transform: translate(0,0);
-}
-
-/* glitch trigger */
-.tap:hover::after {
-  animation: glitch 0.3s linear;
-}
-
-/* modo dark */
+/* esconder no estado 2 */
 body.active .tap {
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.25),
-    0 0 18px rgba(255,255,255,0.1);
+  opacity: 0;
+  pointer-events: none;
 }
 
-body.active .tap::after {
-  color: #fff;
-}
-
-/* PULSE (em vez de bounce) */
+/* animação */
 @keyframes pulse {
-  0% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-6px); opacity: 0.85; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-/* GLITCH */
-@keyframes glitch {
-  0% {
-    transform: translate(0,0);
-    opacity: 0.2;
-  }
-  20% {
-    transform: translate(-2px, 1px);
-  }
-  40% {
-    transform: translate(2px, -1px);
-  }
-  60% {
-    transform: translate(-1px, 2px);
-  }
-  80% {
-    transform: translate(1px, -2px);
-  }
-  100% {
-    transform: translate(0,0);
-    opacity: 0;
-  }
-}
-
-/* HOVER feedback */
-.tap:hover {
-  transform: scale(1.05);
-}
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
 }
 
 /* REVEAL */
@@ -200,17 +148,20 @@ body.active .tap::after {
   transform: translateY(-50%);
   font-size: 4vw;
   letter-spacing: 3px;
+
   opacity: 0;
+  pointer-events: none;
   transition: opacity 1.2s ease;
 }
 
 body.active .reveal {
   opacity: 1;
+  pointer-events: auto;
 }
 
-/* BOTÃO (CORRIGIDO) */
+/* BOTÃO */
 .rsvp {
-  margin-top: 5vh;
+  margin-top: 6vh;
   display: inline-block;
   text-decoration: none;
 
@@ -222,33 +173,21 @@ body.active .reveal {
   letter-spacing: 3px;
   padding: 12px 28px;
 
-  opacity: 1;
+  opacity: 0;
+  pointer-events: none;
   transition: all 0.4s ease;
-
-  /* destaque subtil */
-  box-shadow: 0 0 0 rgba(0,0,0,0);
 }
 
-/* dark mode */
 body.active .rsvp {
+  opacity: 1;
+  pointer-events: auto;
   border: 1px solid rgba(255,255,255,0.5);
   color: #f5f5f5;
 }
 
-/* hover com glow */
 .rsvp:hover {
   transform: translateY(-2px);
-
-  box-shadow:
-    0 0 10px rgba(0,0,0,0.15),
-    0 0 20px rgba(0,0,0,0.05);
-}
-
-body.active .rsvp:hover {
-  box-shadow:
-    0 0 12px rgba(255,255,255,0.25),
-    0 0 25px rgba(255,255,255,0.1);
-}
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
 }
 
 /* VIDEO */
@@ -259,23 +198,30 @@ body.active .rsvp:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 1.5s ease;
+  z-index: -10;
+  display: none;
 }
 
 body.active .bg-video {
+  display: block;
   opacity: 0.25;
-  filter: blur(6px) contrast(120%) grayscale(100%);
+  filter: blur(6px) grayscale(100%);
 }
 
-/* DESKTOP */
-@media (min-width: 600px) {
-  .names { font-size: 36px; }
-  .date { font-size: 70px; }
-  .info, .countdown { font-size: 12px; }
-  .tap { font-size: 12px; }
+/* MOBILE EXTRA */
+@media (max-width: 480px) {
+  .names { font-size: 28px; }
+  .date { font-size: 48px; }
+  .info { font-size: 12px; }
+  .countdown { font-size: 16px; }
+
+  .tap {
+    top: -40px;
+    right: 10px;
+    font-size: 11px;
+  }
 }
+
 </style>
 </head>
 
@@ -284,9 +230,9 @@ body.active .bg-video {
 <div class="poster">
 
   <!-- TAP -->
-<div class="tap">
-  🖤 <span>dress code</span>
-</div>
+  <div class="tap">
+    🖤 <span>dress code</span>
+  </div>
 
   <!-- INITIAL -->
   <div class="initial">
@@ -311,7 +257,7 @@ body.active .bg-video {
 </div>
 
 <!-- VIDEO -->
-<video class="bg-video" muted loop playsinline preload="auto">
+<video class="bg-video" muted loop playsinline>
   <source src="video.mp4" type="video/mp4">
 </video>
 
@@ -321,34 +267,26 @@ body.active .bg-video {
 </audio>
 
 <script>
+const audio = document.getElementById("music");
+const video = document.querySelector(".bg-video");
+
 function activateExperience() {
   document.body.classList.add("active");
-
-  const video = document.querySelector(".bg-video");
-  const audio = document.getElementById("music");
 
   video.play().catch(() => {});
   audio.play().catch(() => {});
 }
 
+/* TAP GLOBAL */
 document.body.addEventListener("click", activateExperience, { once: true });
 
-  const audio = document.getElementById("music");
+/* parar música */
+window.addEventListener("beforeunload", () => audio.pause());
 
-/* parar ao sair da página */
-window.addEventListener("beforeunload", () => {
-  audio.pause();
-  audio.currentTime = 0;
-});
-
-/* parar quando muda de tab */
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    audio.pause();
-  }
+  if (document.hidden) audio.pause();
 });
 
-/* parar ao clicar no botão */
 document.querySelector(".rsvp").addEventListener("click", () => {
   audio.pause();
 });
@@ -365,20 +303,21 @@ function updateCountdown() {
     return;
   }
 
-  const days = Math.floor(distance / (1000*60*60*24));
-  const hours = Math.floor((distance/(1000*60*60)) % 24);
-  const minutes = Math.floor((distance/(1000*60)) % 60);
-  const seconds = Math.floor((distance/1000) % 60);
+  const d = Math.floor(distance / (1000*60*60*24));
+  const h = Math.floor((distance/(1000*60*60)) % 24);
+  const m = Math.floor((distance/(1000*60)) % 60);
+  const s = Math.floor((distance/1000) % 60);
 
   document.getElementById("countdown").innerHTML =
-    days + "d " +
-    String(hours).padStart(2,'0') + ":" +
-    String(minutes).padStart(2,'0') + ":" +
-    String(seconds).padStart(2,'0');
+    d + "d " +
+    String(h).padStart(2,'0') + ":" +
+    String(m).padStart(2,'0') + ":" +
+    String(s).padStart(2,'0');
 }
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
 </script>
+
 </body>
 </html>
