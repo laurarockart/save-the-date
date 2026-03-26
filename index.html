@@ -1,220 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>03.09.2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
-  
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      color: #f5f5f5;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>03.09.2026</title>
 
-    .poster {
-      position: relative;
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-      padding: 0 5%;
-      box-sizing: border-box;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
 
-    /* TEXTO RESPONSIVO */
-    .names {
-      font-size: 6vw;
-      margin-bottom: 4vh;
-      letter-spacing: 6px;
-      opacity: 0.6;
-      text-transform: lowercase;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: background 1.2s ease;
+  background: #f2f2f2; /* INICIAL CLARO */
+}
 
-    .date {
-      font-size: 12vw;
-      font-weight: 300;
-      line-height: 1.1;
-      word-break: break-word;
-    }
+/* ESTADO ATIVO (depois do tap) */
+body.active {
+  background: #0a0a0a;
+  color: #f5f5f5;
+}
 
-    .info {
-      margin-top: 2vh;
-      font-size: 3vw;
-      letter-spacing: 4px;
-      text-transform: lowercase;
-      opacity: 0.7;
-    }
+.poster {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  z-index: 2;
+}
 
-    .countdown {
-      margin-top: 4vh;
-      font-size: 3vw;
-      opacity: 0.35;
-      letter-spacing: 3px;
-    }
+/* TEXTO */
+.text {
+  transition: all 1s ease;
+}
 
-    /* BOTÃO RSVP */
-    .rsvp-button {
-      margin-top: 50px;
-      display: inline-block;
-      text-decoration: none;
+.names {
+  font-size: 6vw;
+  margin-bottom: 4vh;
+  letter-spacing: 6px;
+  text-transform: lowercase;
+  opacity: 0.6;
+}
 
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #f5f5f5;
+.date {
+  font-size: 12vw;
+  font-weight: 300;
+}
 
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      letter-spacing: 3px;
-      text-transform: lowercase;
+.info {
+  margin-top: 2vh;
+  font-size: 3vw;
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
 
-      padding: 12px 28px;
+/* TEXTO TEASING */
+.tease {
+  margin-top: 5vh;
+  font-size: 3vw;
+  letter-spacing: 3px;
+  opacity: 0.7;
+  transition: opacity 0.6s ease;
+}
 
-      opacity: 0; /* começa invisível */
-      transition: opacity 1.5s ease;
-    }
+/* TEXTO REVEAL */
+.reveal {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 5vw;
+  letter-spacing: 4px;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
 
-    .rsvp-button.show {
-      opacity: 1;
-    }
+/* ATIVAR REVEAL */
+body.active .tease {
+  opacity: 0;
+}
 
-    .rsvp-button:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.6);
-    }
+body.active .reveal {
+  opacity: 1;
+}
 
-    /* VÍDEO */
-    .bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      opacity: 0.25;
-      filter: blur(8px) contrast(120%) grayscale(100%);
-    }
+/* POINTER */
+.pointer {
+  position: fixed;
+  bottom: 70px;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+  animation: bounce 1.2s infinite alternate;
+  opacity: 0.8;
+}
 
-    /* DESKTOP AJUSTE */
-    @media (min-width: 600px) {
-      .names { font-size: 36px; margin-bottom: 60px; }
-      .date { font-size: 70px; }
-      .info { font-size: 12px; }
-      .countdown { font-size: 12px; }
-    }
-  </style>
+.pointer img {
+  width: 42px;
+  filter: brightness(0.2); /* escuro no fundo claro */
+  transition: filter 1s ease;
+}
+
+/* pointer fica branco depois do tap */
+body.active .pointer img {
+  filter: brightness(1);
+}
+
+/* desaparecer depois do tap */
+body.active .pointer {
+  opacity: 0;
+}
+
+/* bounce suave */
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* VIDEO */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+body.active .bg-video {
+  opacity: 0.25;
+  filter: blur(6px) contrast(120%) grayscale(100%);
+}
+
+/* DESKTOP */
+@media (min-width: 600px) {
+  .names { font-size: 36px; }
+  .date { font-size: 70px; }
+  .info, .tease { font-size: 12px; }
+}
+</style>
 </head>
 
 <body>
-  <div class="poster">
+
+<div class="poster">
+  <div class="text">
     <div class="names">l + d</div>
     <div class="date">03.09.2026</div>
     <div class="info">22:00 · porto — you’ll find out</div>
-    <div class="countdown" id="countdown"></div>
-    <!-- Frase "tap for fun" -->
-<div id="tap-hint" style="
-  position: fixed;
-  bottom: 580px;        /* localizaçao */
-  width: 115%;
-  text-align: center;
-  color: #f5f5f5;
-  font-size: 16px;
-  opacity: 0.7;
-  z-index: 3;
-  pointer-events: none;
-  animation: bounce 1.2s infinite alternate;
-">
-  ☝🏼 tap for fun
+
+    <!-- TEASING -->
+    <div class="tease">tap to reveal dress code</div>
+
+    <!-- REVEAL -->
+    <div class="reveal">
+      all black<br>no exceptions
+    </div>
+  </div>
 </div>
 
-<style>
-  @keyframes bounce {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-8px); } /* sobe 8px e volta */
-  }
-</style>
+<!-- POINTER -->
+<div class="pointer">
+  <img src="pointer.png">
+</div>
 
-<style>
-@keyframes bounce {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-8px); } /* sobe 8px e volta */
+<!-- VIDEO -->
+<video class="bg-video" loop playsinline preload="auto">
+  <source src="video.mp4" type="video/mp4">
+</video>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function activateExperience() {
+  document.body.classList.add("active");
+
+  const video = document.querySelector(".bg-video");
+  const audio = document.getElementById("music");
+
+  video.play().catch(() => {});
+  audio.play().catch(() => {});
 }
-</style>
 
-<style>
-  @keyframes bounce {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-8px); } /* sobe 8px e volta */
-  }
-</style>
+// UM ÚNICO TAP
+document.body.addEventListener("click", activateExperience, { once: true });
+</script>
 
-    <!-- BOTÃO CONFIRM -->
-    <a href="https://forms.gle/YFfshJma97fQJsei7" target="_parent" class="rsvp-button">
-      confirm
-    </a>
-  </div>
-
-  <!-- VÍDEO -->
-  <video autoplay muted loop playsinline preload="auto" class="bg-video">
-    <source src="video.mp4" type="video/mp4">
-  </video>
-
-  <!-- MÚSICA -->
-  <audio id="bg-music" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
-
-  <script>
-    // Mostrar botão RSVP após 1,5s (mesma animação)
-    setTimeout(() => {
-      document.querySelector('.rsvp-button').classList.add('show');
-    }, 1500);
-
-    // Primeiro toque no mobile dispara música e força vídeo a tocar
-    function enableMedia() {
-      const audio = document.getElementById('bg-music');
-      audio.play().catch(() => {});
-
-      const video = document.querySelector('.bg-video');
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    }
-
-    // Escuta qualquer toque na tela (uma vez)
-    document.body.addEventListener('click', enableMedia, {once:true});
-
-    // Contador regressivo
-    const eventDate = new Date("2026-09-03T22:00:00").getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = eventDate - now;
-
-      if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "it’s happening";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000*60*60*24));
-      const hours = Math.floor((distance/(1000*60*60)) % 24);
-      const minutes = Math.floor((distance/(1000*60)) % 60);
-      const seconds = Math.floor((distance/1000) % 60);
-
-      document.getElementById("countdown").innerHTML =
-        days + "d " +
-        String(hours).padStart(2,'0') + ":" +
-        String(minutes).padStart(2,'0') + ":" +
-        String(seconds).padStart(2,'0');
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
 </body>
 </html>
