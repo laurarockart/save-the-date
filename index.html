@@ -9,17 +9,16 @@
 
 <style>
 
-/* RESET IMPORTANTE */
+/* RESET */
 html, body {
   margin: 0;
   padding: 0;
-  max-width: 100%;
   overflow-x: hidden;
 }
 
 /* BASE */
 body {
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Inter', sans-serif;
   display: flex;
   align-items: center;
@@ -27,12 +26,10 @@ body {
   color: #111;
   transition: all 1s ease;
 
-  /* FUNDO TEXTURADO */
   background:
     radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
     radial-gradient(circle at 75% 70%, rgba(255,255,255,0.6), transparent 60%),
     radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 70%),
-    radial-gradient(circle at 40% 60%, rgba(255,255,255,0.2), transparent 80%),
     repeating-linear-gradient(
       0deg,
       rgba(0,0,0,0.03),
@@ -50,12 +47,68 @@ body.active {
 
 /* LAYOUT */
 .poster {
-  position: relative;
   width: 100%;
   max-width: 600px;
-  padding: 0 20px;
-  box-sizing: border-box;
+  padding: 40px 20px;
   text-align: center;
+  position: relative;
+}
+
+/* TEXT RESPONSIVO (FIX PRINCIPAL) */
+.names {
+  font-size: clamp(20px, 4vw, 32px);
+  margin-bottom: 30px;
+  letter-spacing: 6px;
+  opacity: 0.6;
+}
+
+.date {
+  font-size: clamp(42px, 10vw, 80px);
+}
+
+.info {
+  margin-top: 10px;
+  font-size: clamp(12px, 2.5vw, 16px);
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
+
+/* COUNTDOWN */
+.countdown {
+  margin-top: 40px;
+  font-size: clamp(14px, 3vw, 18px);
+  letter-spacing: 4px;
+  opacity: 0.7;
+}
+
+/* TAP */
+.tap {
+  position: absolute;
+  top: -20px;
+  right: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+  animation: bounce 1.6s infinite;
+}
+
+.tap span {
+  font-weight: 700;
+}
+
+body.active .tap {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ANIMAÇÃO MELHORADA */
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* INITIAL */
@@ -67,127 +120,54 @@ body.active .initial {
   opacity: 0;
 }
 
-/* TEXT */
-.names {
-  font-size: 6vw;
-  margin-bottom: 4vh;
-  letter-spacing: 6px;
-  opacity: 0.6;
-}
-
-.date {
-  font-size: 12vw;
-}
-
-.info {
-  margin-top: 2vh;
-  font-size: 3vw;
-  letter-spacing: 3px;
-  opacity: 0.7;
-}
-
-/* COUNTDOWN */
-.countdown {
-  margin-top: 6vh;
-  font-size: 4vw;
-  letter-spacing: 4px;
-  opacity: 0.7;
-  text-shadow: 0 0 8px rgba(0,0,0,0.08);
-}
-
-body.active .countdown {
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
-}
-
-/* TAP (corrigido mobile) */
-.tap {
-  position: absolute;
-  top: -50px;
-  right: 20px;
-
-  font-size: 12px;
-  max-width: 140px;
-  text-align: right;
-  white-space: nowrap;
-
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-
-  cursor: pointer;
-  animation: pulse 2s infinite;
-
-  text-shadow:
-    0 0 6px rgba(0,0,0,0.15),
-    0 0 12px rgba(0,0,0,0.08);
-}
-
-.tap span {
-  font-weight: 700;
-  letter-spacing: 3px;
-}
-
-/* esconder no estado 2 */
-body.active .tap {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* animação */
-@keyframes pulse {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0); }
-}
-
-/* REVEAL */
+/* REVEAL (FIX CENTRADO) */
 .reveal {
-  position: absolute;
-  width: 100%;
-  top: 45%;
-  transform: translateY(-50%);
-  font-size: 4vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 60px;
+
+  font-size: clamp(16px, 4vw, 22px);
   letter-spacing: 3px;
 
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s ease;
+  transition: opacity 1s ease;
 }
 
 body.active .reveal {
   opacity: 1;
-  pointer-events: auto;
 }
 
 /* BOTÃO */
 .rsvp {
-  margin-top: 6vh;
+  margin-top: 50px;
   display: inline-block;
   text-decoration: none;
 
-  border: 1px solid rgba(0,0,0,0.5);
-  color: #111;
-  background: transparent;
-
+  border: 1px solid rgba(0,0,0,0.4);
+  padding: 12px 28px;
   font-size: 12px;
   letter-spacing: 3px;
-  padding: 12px 28px;
+
+  background: transparent;
+  color: #111;
+
+  transition: all 0.3s ease;
 
   opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s ease;
 }
 
 body.active .rsvp {
   opacity: 1;
-  pointer-events: auto;
-  border: 1px solid rgba(255,255,255,0.5);
-  color: #f5f5f5;
+  border-color: rgba(255,255,255,0.5);
+  color: #fff;
 }
 
 .rsvp:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  box-shadow: 0 0 12px rgba(255,255,255,0.2);
 }
 
 /* VIDEO */
@@ -208,20 +188,6 @@ body.active .bg-video {
   filter: blur(6px) grayscale(100%);
 }
 
-/* MOBILE EXTRA */
-@media (max-width: 480px) {
-  .names { font-size: 28px; }
-  .date { font-size: 48px; }
-  .info { font-size: 12px; }
-  .countdown { font-size: 16px; }
-
-  .tap {
-    top: -40px;
-    right: 10px;
-    font-size: 11px;
-  }
-}
-
 </style>
 </head>
 
@@ -230,9 +196,7 @@ body.active .bg-video {
 <div class="poster">
 
   <!-- TAP -->
-  <div class="tap">
-    🖤 <span>dress code</span>
-  </div>
+  <div class="tap">🖤 <span>dress code</span></div>
 
   <!-- INITIAL -->
   <div class="initial">
@@ -243,7 +207,8 @@ body.active .bg-video {
 
   <!-- REVEAL -->
   <div class="reveal">
-    all black<br>no exceptions
+    <div>all black</div>
+    <div>no exceptions</div>
   </div>
 
   <!-- COUNTDOWN -->
@@ -272,15 +237,12 @@ const video = document.querySelector(".bg-video");
 
 function activateExperience() {
   document.body.classList.add("active");
-
   video.play().catch(() => {});
   audio.play().catch(() => {});
 }
 
-/* TAP GLOBAL */
 document.body.addEventListener("click", activateExperience, { once: true });
 
-/* parar música */
 window.addEventListener("beforeunload", () => audio.pause());
 
 document.addEventListener("visibilitychange", () => {
