@@ -15,9 +15,21 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #f2f2f2;
   color: #111;
   transition: all 1s ease;
+
+  /* FUNDO COM TEXTURA + LUZ */
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.4), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.02),
+      rgba(0,0,0,0.02) 1px,
+      transparent 1px,
+      transparent 2px
+    ),
+    #f2f2f2;
 }
 
 body.active {
@@ -42,7 +54,7 @@ body.active .initial {
   opacity: 0;
 }
 
-/* TEXTO BASE */
+/* TEXTO */
 .names {
   font-size: 6vw;
   margin-bottom: 4vh;
@@ -61,7 +73,7 @@ body.active .initial {
   opacity: 0.7;
 }
 
-/* COUNTDOWN (SEMPRE VISÍVEL) */
+/* COUNTDOWN */
 .countdown {
   margin-top: 4vh;
   font-size: 3vw;
@@ -69,18 +81,17 @@ body.active .initial {
   letter-spacing: 3px;
 }
 
-/* DRESS CODE (DESTAQUE) */
+/* TAP (DESTAQUE) */
 .tap {
   position: absolute;
-  top: -30px;
-  right: 10%;
+  top: -60px;
+  right: 12%;
   font-size: 2.8vw;
   letter-spacing: 2px;
   font-weight: 500;
   animation: bounce 1s infinite alternate;
 }
 
-/* destaque na palavra */
 .tap span {
   color: #000;
   font-weight: 600;
@@ -90,7 +101,7 @@ body.active .tap span {
   color: #fff;
 }
 
-/* animação */
+/* ANIMAÇÃO */
 @keyframes bounce {
   from { transform: translateY(0); }
   to { transform: translateY(-10px); }
@@ -102,7 +113,7 @@ body.active .tap span {
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 4vw; /* MAIS PEQUENO */
+  font-size: 4vw;
   letter-spacing: 3px;
   opacity: 0;
   transition: opacity 1.2s ease;
@@ -144,9 +155,9 @@ body.active .bg-video {
 
 <div class="poster">
 
-  <!-- TAP (DESTAQUE VISUAL) -->
+  <!-- TAP -->
   <div class="tap">
-    👉 <span>dress code</span>
+    🖤 <span>dress code</span>
   </div>
 
   <!-- TEXTO INICIAL -->
@@ -161,7 +172,7 @@ body.active .bg-video {
     all black<br>no exceptions
   </div>
 
-  <!-- COUNTDOWN (SEMPRE) -->
+  <!-- COUNTDOWN -->
   <div class="countdown" id="countdown"></div>
 
 </div>
@@ -171,9 +182,9 @@ body.active .bg-video {
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- MÚSICA -->
+<!-- MÚSICA LOCAL -->
 <audio id="music" loop>
-  <source src="TUA-MUSICA.mp3" type="audio/mpeg">
+  <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
 <script>
