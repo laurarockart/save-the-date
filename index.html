@@ -15,16 +15,18 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: background 1.2s ease;
-  background: #f2f2f2; /* INICIAL CLARO */
+  background: #f2f2f2;
+  color: #111;
+  transition: all 1s ease;
 }
 
-/* ESTADO ATIVO (depois do tap) */
+/* ATIVO */
 body.active {
   background: #0a0a0a;
   color: #f5f5f5;
 }
 
+/* CONTAINER */
 .poster {
   position: relative;
   width: 90%;
@@ -33,22 +35,26 @@ body.active {
   z-index: 2;
 }
 
-/* TEXTO */
-.text {
-  transition: all 1s ease;
+/* TEXTO INICIAL */
+.initial {
+  transition: opacity 0.8s ease;
 }
 
+body.active .initial {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* TEXTO */
 .names {
   font-size: 6vw;
   margin-bottom: 4vh;
   letter-spacing: 6px;
-  text-transform: lowercase;
   opacity: 0.6;
 }
 
 .date {
   font-size: 12vw;
-  font-weight: 300;
 }
 
 .info {
@@ -58,30 +64,23 @@ body.active {
   opacity: 0.7;
 }
 
-/* TEXTO TEASING */
+/* TEASE */
 .tease {
   margin-top: 5vh;
   font-size: 3vw;
   letter-spacing: 3px;
-  opacity: 0.7;
-  transition: opacity 0.6s ease;
 }
 
-/* TEXTO REVEAL */
+/* REVEAL */
 .reveal {
   position: absolute;
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 5vw;
+  font-size: 6vw;
   letter-spacing: 4px;
   opacity: 0;
   transition: opacity 1.2s ease;
-}
-
-/* ATIVAR REVEAL */
-body.active .tease {
-  opacity: 0;
 }
 
 body.active .reveal {
@@ -90,35 +89,31 @@ body.active .reveal {
 
 /* POINTER */
 .pointer {
-  position: fixed;
-  bottom: 70px;
-  width: 100%;
-  text-align: center;
-  z-index: 3;
-  animation: bounce 1.2s infinite alternate;
-  opacity: 0.8;
+  position: absolute;
+  top: -20px;
+  right: 30%;
+  animation: bounce 1s infinite alternate;
 }
 
 .pointer img {
-  width: 42px;
-  filter: brightness(0.2); /* escuro no fundo claro */
-  transition: filter 1s ease;
+  width: 36px;
 }
 
-/* pointer fica branco depois do tap */
-body.active .pointer img {
-  filter: brightness(1);
+/* fallback se imagem falhar */
+.pointer::after {
+  content: "↑";
+  font-size: 24px;
+  display: none;
 }
 
-/* desaparecer depois do tap */
-body.active .pointer {
-  opacity: 0;
+.pointer img:invalid + .pointer::after {
+  display: block;
 }
 
-/* bounce suave */
+/* animação */
 @keyframes bounce {
   from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
+  to { transform: translateY(-8px); }
 }
 
 /* VIDEO */
@@ -151,34 +146,36 @@ body.active .bg-video {
 <body>
 
 <div class="poster">
-  <div class="text">
+
+  <!-- TEXTO INICIAL -->
+  <div class="initial">
     <div class="names">l + d</div>
     <div class="date">03.09.2026</div>
     <div class="info">22:00 · porto — you’ll find out</div>
 
-    <!-- TEASING -->
     <div class="tease">tap to reveal dress code</div>
 
-    <!-- REVEAL -->
-    <div class="reveal">
-      all black<br>no exceptions
+    <!-- POINTER -->
+    <div class="pointer">
+      <img src="pointer.png" alt="">
     </div>
   </div>
+
+  <!-- REVEAL -->
+  <div class="reveal">
+    all black<br>no exceptions
+  </div>
+
 </div>
 
-<!-- POINTER -->
-<div class="pointer">
-  <img src="pointer.png">
-</div>
-
-<!-- VIDEO -->
-<video class="bg-video" loop playsinline preload="auto">
+<!-- VIDEO (SEM SOM) -->
+<video class="bg-video" muted loop playsinline preload="auto">
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- AUDIO -->
+<!-- ÁUDIO (METE AQUI A TUA MÚSICA) -->
 <audio id="music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
+  <source src="TUA-MUSICA.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -188,11 +185,12 @@ function activateExperience() {
   const video = document.querySelector(".bg-video");
   const audio = document.getElementById("music");
 
+  video.muted = true;
   video.play().catch(() => {});
+
   audio.play().catch(() => {});
 }
 
-// UM ÚNICO TAP
 document.body.addEventListener("click", activateExperience, { once: true });
 </script>
 
