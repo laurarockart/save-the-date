@@ -39,20 +39,29 @@ body.active {
 .poster {
   width: 100%;
   max-width: 600px;
-  padding: 60px 20px 120px;
+  padding: 90px 20px 120px;
   text-align: center;
 }
 
 /* HEART */
+.heart-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
 .heart {
   font-size: 14px;
-  margin-bottom: 10px;
-  text-align: center;
+
+  /* ajuste fino para compensar o emoji */
+  transform: translateX(-3px);
+
   transition: color 0.5s ease;
 }
 
+/* cor muda automaticamente */
 body.active .heart {
-  color: #fff;
+  color: #ffffff;
 }
 
 /* NAMES */
@@ -63,7 +72,7 @@ body.active .heart {
   margin-bottom: 40px;
 }
 
-/* FIXED BLOCK */
+/* CONTENT */
 .content {
   position: relative;
   height: 140px;
@@ -104,7 +113,7 @@ body.active .reveal { opacity: 1; }
   text-align: center;
 }
 
-/* CTA FIXO */
+/* CTA */
 .cta {
   position: fixed;
   bottom: 40px;
@@ -113,7 +122,7 @@ body.active .reveal { opacity: 1; }
 
   text-decoration: none;
   border: 1px solid rgba(0,0,0,0.4);
-  padding: 14px 34px; /* tamanho final */
+  padding: 14px 34px;
   font-size: 12px;
   letter-spacing: 3px;
 
@@ -157,7 +166,10 @@ body.active .bg-video {
 
 <div class="poster">
 
-  <div class="heart">🖤</div>
+  <div class="heart-wrapper">
+    <div class="heart">🖤</div>
+  </div>
+
   <div class="names">l + d</div>
 
   <div class="content">
@@ -191,7 +203,6 @@ const audio = document.getElementById("music");
 const video = document.querySelector(".bg-video");
 const cta = document.getElementById("ctaButton");
 
-/* ATIVAR */
 function activateExperience() {
   document.body.classList.add("active");
 
@@ -206,7 +217,6 @@ function activateExperience() {
   cta.target = "_blank";
 }
 
-/* VOLTAR */
 function deactivateExperience() {
   document.body.classList.remove("active");
 
@@ -218,7 +228,6 @@ function deactivateExperience() {
   cta.target = "";
 }
 
-/* CLIQUE */
 cta.addEventListener("click", function(e) {
   if (!document.body.classList.contains("active")) {
     e.preventDefault();
@@ -228,14 +237,12 @@ cta.addEventListener("click", function(e) {
   }
 });
 
-/* BOTÃO BACK DO TELEMÓVEL */
 window.addEventListener("popstate", function() {
   if (document.body.classList.contains("active")) {
     deactivateExperience();
   }
 });
 
-/* PARAR MÚSICA */
 window.addEventListener("beforeunload", () => audio.pause());
 
 document.addEventListener("visibilitychange", () => {
