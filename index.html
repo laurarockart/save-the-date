@@ -22,11 +22,18 @@ body {
   align-items: center;
   justify-content: center;
   color: #111;
-  transition: background 0.5s ease;
+  transition: background 0.6s ease;
 
   background:
     radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
     radial-gradient(circle at 75% 70%, rgba(255,255,255,0.6), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.03),
+      rgba(0,0,0,0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    ),
     #efefef;
 }
 
@@ -35,15 +42,31 @@ body.active {
   color: #f5f5f5;
 }
 
+/* GLITCH EFFECT */
+.glitch {
+  animation: glitch 0.4s linear;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); opacity: 1; }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); opacity: 1; }
+}
+
+.poster {
+  width: 100%;
+  max-width: 600px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
 /* HEART */
 .heart {
   font-size: 14px;
   margin-bottom: 10px;
-  transition: color 0.5s ease;
-}
-
-body.active .heart {
-  color: white;
 }
 
 /* NAMES */
@@ -54,58 +77,12 @@ body.active .heart {
   margin-bottom: 40px;
 }
 
-/* CONTENT FIXO */
+/* FIXED BLOCK */
 .content {
   position: relative;
   height: 140px;
 }
 
-/* GLITCH RGB */
-.glitch {
-  position: relative;
-  display: inline-block;
-}
-
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  width: 100%;
-  opacity: 0.6;
-}
-
-.glitch::before {
-  color: red;
-  transform: translate(-2px, 0);
-}
-
-.glitch::after {
-  color: blue;
-  transform: translate(2px, 0);
-}
-
-.glitch-active::before {
-  animation: glitchR 0.3s infinite;
-}
-
-.glitch-active::after {
-  animation: glitchB 0.3s infinite;
-}
-
-@keyframes glitchR {
-  0% { transform: translate(-2px, 0); }
-  50% { transform: translate(-5px, 2px); }
-  100% { transform: translate(-2px, 0); }
-}
-
-@keyframes glitchB {
-  0% { transform: translate(2px, 0); }
-  50% { transform: translate(5px, -2px); }
-  100% { transform: translate(2px, 0); }
-}
-
-/* DATE */
 .date {
   position: absolute;
   width: 100%;
@@ -113,7 +90,6 @@ body.active .heart {
   font-size: clamp(42px, 10vw, 80px);
 }
 
-/* INFO */
 .info, .reveal {
   position: absolute;
   width: 100%;
@@ -122,7 +98,7 @@ body.active .heart {
   font-size: clamp(12px, 2.5vw, 16px);
   letter-spacing: 3px;
   opacity: 0.7;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
 }
 
 .reveal { opacity: 0; }
@@ -130,42 +106,28 @@ body.active .heart {
 body.active .info { opacity: 0; }
 body.active .reveal { opacity: 1; }
 
-/* COUNTDOWN HEARTBEAT */
+/* COUNTDOWN UPGRADE */
 .countdown {
   margin-top: 60px;
-  font-size: clamp(16px, 3vw, 22px);
+  font-size: clamp(14px, 3vw, 20px);
   letter-spacing: 4px;
 
-  padding: 16px 26px;
+  padding: 14px 22px;
   display: inline-block;
 
-  background: rgba(0,0,0,0.1);
-  border-radius: 40px;
-
-  box-shadow: 0 0 20px rgba(0,0,0,0.15);
-
-  animation: pulse 1.8s infinite;
-}
-
-body.active .countdown {
   background: rgba(255,255,255,0.08);
-  box-shadow: 0 0 25px rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+
+  border-radius: 40px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.08);
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-  100% { transform: scale(1); }
-}
-
-/* BOTÃO FIXO EM BAIXO */
+/* CTA */
 .cta {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-
+  margin-top: 50px;
+  display: inline-block;
   text-decoration: none;
+
   border: 1px solid rgba(0,0,0,0.4);
   padding: 12px 28px;
   font-size: 12px;
@@ -182,7 +144,7 @@ body.active .cta {
 }
 
 .cta:hover {
-  transform: translateX(-50%) translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 0 14px rgba(255,255,255,0.25);
 }
 
@@ -209,13 +171,13 @@ body.active .bg-video {
 
 <body>
 
-<div class="poster">
+<div class="poster" id="poster">
 
   <div class="heart">🖤</div>
   <div class="names">l + d</div>
 
   <div class="content">
-    <div class="date glitch" id="date" data-text="03.09.2026">03.09.2026</div>
+    <div class="date">03.09.2026</div>
 
     <div class="info">
       22:00 · porto — you’ll find out
@@ -228,9 +190,9 @@ body.active .bg-video {
 
   <div class="countdown" id="countdown"></div>
 
-</div>
+  <a href="#" class="cta" id="ctaButton">enter</a>
 
-<a href="#" class="cta" id="ctaButton">enter</a>
+</div>
 
 <video class="bg-video" muted loop playsinline>
   <source src="video.mp4" type="video/mp4">
@@ -244,11 +206,10 @@ body.active .bg-video {
 const audio = document.getElementById("music");
 const video = document.querySelector(".bg-video");
 const cta = document.getElementById("ctaButton");
-const date = document.getElementById("date");
+const poster = document.getElementById("poster");
 
 function activateExperience() {
-
-  date.classList.add("glitch-active");
+  poster.classList.add("glitch");
 
   setTimeout(() => {
     document.body.classList.add("active");
@@ -260,11 +221,6 @@ function activateExperience() {
     cta.textContent = "confirm";
     cta.href = "https://forms.gle/YFfshJma97fQJsei7";
     cta.target = "_blank";
-
-    setTimeout(() => {
-      date.classList.remove("glitch-active");
-    }, 600);
-
   }, 200);
 }
 
@@ -311,9 +267,6 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
