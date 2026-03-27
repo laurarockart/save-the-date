@@ -44,19 +44,22 @@ body.active {
   position: relative;
 }
 
-/* ❤️ HEART (POSIÇÃO REAL CENTRADA) */
+/* ❤️ HEART */
 .heart {
   position: absolute;
-  top: 10px; /* 👈 mais acima */
+  top: 5px;
   left: 50%;
-  transform: translateX(-50%);
+  
+  /* 👇 AQUI ESTÁ A CORREÇÃO REAL */
+  transform: translateX(calc(-50% - 4px));
+
   font-size: 14px;
   pointer-events: none;
 }
 
 /* NAMES */
 .names {
-  margin-top: 30px;
+  margin-top: 35px;
   font-size: clamp(20px, 4vw, 32px);
   letter-spacing: 6px;
   opacity: 0.6;
@@ -154,7 +157,6 @@ body.active .bg-video {
 
 <div class="poster">
 
-  <!-- ❤️ AGORA REALMENTE CENTRADO -->
   <div class="heart" id="heart">🖤</div>
 
   <div class="names">l + d</div>
