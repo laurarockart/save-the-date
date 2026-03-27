@@ -39,37 +39,27 @@ body.active {
 .poster {
   width: 100%;
   max-width: 600px;
-  padding: 90px 20px 120px;
+  padding: 60px 20px 100px;
   text-align: center;
 }
 
-/* HEART */
-.heart-wrapper {
+/* HEADER */
+.header {
   display: flex;
-  justify-content: center;
-  margin-bottom: 22px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
 }
 
 .heart {
   font-size: 14px;
-
-  /* ajuste fino para compensar o emoji */
-  transform: translateX(-3px);
-
-  transition: color 0.5s ease;
 }
 
-/* cor muda automaticamente */
-body.active .heart {
-  color: #ffffff;
-}
-
-/* NAMES */
 .names {
   font-size: clamp(20px, 4vw, 32px);
   letter-spacing: 6px;
   opacity: 0.6;
-  margin-bottom: 40px;
 }
 
 /* CONTENT */
@@ -78,7 +68,6 @@ body.active .heart {
   height: 140px;
 }
 
-/* DATE */
 .date {
   position: absolute;
   width: 100%;
@@ -87,7 +76,6 @@ body.active .heart {
   font-size: clamp(42px, 10vw, 80px);
 }
 
-/* TEXT */
 .info, .reveal {
   position: absolute;
   width: 100%;
@@ -107,10 +95,9 @@ body.active .reveal { opacity: 1; }
 
 /* COUNTDOWN */
 .countdown {
-  margin-top: 60px;
+  margin-top: 50px;
   font-size: clamp(16px, 3vw, 20px);
   letter-spacing: 4px;
-  text-align: center;
 }
 
 /* CTA */
@@ -166,11 +153,10 @@ body.active .bg-video {
 
 <div class="poster">
 
-  <div class="heart-wrapper">
-    <div class="heart">🖤</div>
+  <div class="header">
+    <div class="heart" id="heart">🖤</div>
+    <div class="names">l + d</div>
   </div>
-
-  <div class="names">l + d</div>
 
   <div class="content">
     <div class="date">03.09.2026</div>
@@ -202,6 +188,7 @@ body.active .bg-video {
 const audio = document.getElementById("music");
 const video = document.querySelector(".bg-video");
 const cta = document.getElementById("ctaButton");
+const heart = document.getElementById("heart");
 
 function activateExperience() {
   document.body.classList.add("active");
@@ -211,6 +198,8 @@ function activateExperience() {
   video.play().catch(() => {});
   audio.currentTime = 0;
   audio.play().catch(() => {});
+
+  heart.textContent = "🤍"; // 👈 troca para branco
 
   cta.textContent = "confirm";
   cta.href = "https://forms.gle/YFfshJma97fQJsei7";
@@ -222,6 +211,8 @@ function deactivateExperience() {
 
   audio.pause();
   audio.currentTime = 0;
+
+  heart.textContent = "🖤"; // 👈 volta a preto
 
   cta.textContent = "enter";
   cta.href = "#";
