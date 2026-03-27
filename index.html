@@ -22,7 +22,7 @@ body {
   align-items: center;
   justify-content: center;
   color: #111;
-  transition: all 0.8s ease;
+  transition: background 0.6s ease;
 
   background:
     radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
@@ -38,89 +38,91 @@ body {
 }
 
 body.active {
-  background: #0a0a0a;
+  background: #050505;
   color: #f5f5f5;
+}
+
+/* GLITCH EFFECT */
+.glitch {
+  animation: glitch 0.4s linear;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); opacity: 1; }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); opacity: 1; }
 }
 
 .poster {
   width: 100%;
   max-width: 600px;
-  padding: 40px 20px;
+  padding: 60px 20px;
   text-align: center;
-  position: relative;
 }
 
-/* HEADER */
+/* HEART */
+.heart {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* NAMES */
 .names {
   font-size: clamp(20px, 4vw, 32px);
-  margin-bottom: 30px;
   letter-spacing: 6px;
   opacity: 0.6;
+  margin-bottom: 40px;
 }
 
-/* INITIAL */
-.initial {
-  transition: opacity 0.6s ease;
+/* FIXED BLOCK */
+.content {
+  position: relative;
+  height: 140px;
 }
 
-body.active .initial {
-  opacity: 0;
-}
-
-/* TEXT */
 .date {
+  position: absolute;
+  width: 100%;
+  top: 0;
   font-size: clamp(42px, 10vw, 80px);
 }
 
-.info {
-  margin-top: 10px;
+.info, .reveal {
+  position: absolute;
+  width: 100%;
+  top: 80px;
+
   font-size: clamp(12px, 2.5vw, 16px);
   letter-spacing: 3px;
   opacity: 0.7;
+  transition: opacity 0.5s ease;
 }
 
-/* REVEAL */
-.reveal {
-  margin-top: 30px;
+.reveal { opacity: 0; }
 
-  font-size: clamp(12px, 2.5vw, 16px); /* igual ao .info */
-  letter-spacing: 3px;
-  opacity: 0.7;
+body.active .info { opacity: 0; }
+body.active .reveal { opacity: 1; }
 
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.8s ease;
-}
-
-body.active .reveal {
-  opacity: 1;
-  transform: translateY(-10px);
-}
-
-/* BACK */
-.back {
-  position: absolute;
-  top: -20px;
-  left: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  opacity: 0;
-  transition: 0.3s;
-}
-
-body.active .back {
-  opacity: 0.6;
-}
-
-/* COUNTDOWN */
+/* COUNTDOWN UPGRADE */
 .countdown {
-  margin-top: 40px;
-  font-size: clamp(14px, 3vw, 18px);
+  margin-top: 60px;
+  font-size: clamp(14px, 3vw, 20px);
   letter-spacing: 4px;
-  opacity: 0.7;
+
+  padding: 14px 22px;
+  display: inline-block;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+
+  border-radius: 40px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.08);
 }
 
-/* BOTÃO (ÚNICO DINÂMICO) */
+/* CTA */
 .cta {
   margin-top: 50px;
   display: inline-block;
@@ -133,7 +135,6 @@ body.active .back {
 
   background: transparent;
   color: #111;
-
   transition: all 0.3s ease;
 }
 
@@ -144,7 +145,7 @@ body.active .cta {
 
 .cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 12px rgba(255,255,255,0.2);
+  box-shadow: 0 0 14px rgba(255,255,255,0.25);
 }
 
 /* VIDEO */
@@ -170,30 +171,26 @@ body.active .bg-video {
 
 <body>
 
-<div class="poster">
+<div class="poster" id="poster">
 
+  <div class="heart">🖤</div>
   <div class="names">l + d</div>
 
-  <div class="back" onclick="goBack()">←</div>
-
-  <!-- INITIAL -->
-  <div class="initial">
+  <div class="content">
     <div class="date">03.09.2026</div>
-    <div class="info">22:00 · porto — you’ll find out</div>
-  </div>
 
-  <!-- REVEAL -->
-  <div class="reveal">
-    <div class="date">03.09.2026</div>
-    <div style="margin-top:10px;">
+    <div class="info">
+      22:00 · porto — you’ll find out
+    </div>
+
+    <div class="reveal">
       Dress code: all black 🖤 - no exceptions
     </div>
   </div>
 
   <div class="countdown" id="countdown"></div>
 
-  <!-- BOTÃO DINÂMICO -->
-  <a href="#" class="cta" id="ctaButton">+ info</a>
+  <a href="#" class="cta" id="ctaButton">enter</a>
 
 </div>
 
@@ -209,33 +206,30 @@ body.active .bg-video {
 const audio = document.getElementById("music");
 const video = document.querySelector(".bg-video");
 const cta = document.getElementById("ctaButton");
+const poster = document.getElementById("poster");
 
 function activateExperience() {
-  document.body.classList.add("active");
+  poster.classList.add("glitch");
 
-  video.play().catch(() => {});
-  audio.play().catch(() => {});
+  setTimeout(() => {
+    document.body.classList.add("active");
 
-  /* muda botão */
-  cta.textContent = "confirm";
-  cta.href = "https://forms.gle/YFfshJma97fQJsei7";
-  cta.target = "_blank";
+    video.play().catch(() => {});
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+
+    cta.textContent = "confirm";
+    cta.href = "https://forms.gle/YFfshJma97fQJsei7";
+    cta.target = "_blank";
+  }, 200);
 }
 
-function goBack() {
-  document.body.classList.remove("active");
-
-  /* volta botão */
-  cta.textContent = "+ info";
-  cta.href = "#";
-  cta.target = "";
-}
-
-/* comportamento botão */
 cta.addEventListener("click", function(e) {
   if (!document.body.classList.contains("active")) {
     e.preventDefault();
     activateExperience();
+  } else {
+    audio.pause();
   }
 });
 
@@ -244,12 +238,6 @@ window.addEventListener("beforeunload", () => audio.pause());
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) audio.pause();
-});
-
-cta.addEventListener("click", () => {
-  if (document.body.classList.contains("active")) {
-    audio.pause();
-  }
 });
 
 /* COUNTDOWN */
