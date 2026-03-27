@@ -50,37 +50,12 @@ body.active {
   position: relative;
 }
 
-/* HEADER FIXO */
+/* HEADER */
 .names {
   font-size: clamp(20px, 4vw, 32px);
   margin-bottom: 30px;
   letter-spacing: 6px;
   opacity: 0.6;
-}
-
-/* CTA TAP */
-.tap {
-  position: absolute;
-  top: -20px;
-  right: 20px;
-
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-
-  cursor: pointer;
-  animation: pulse 1.4s infinite;
-  opacity: 0.8;
-}
-
-body.active .tap {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.08); opacity: 1; }
 }
 
 /* INITIAL */
@@ -107,8 +82,10 @@ body.active .initial {
 /* REVEAL */
 .reveal {
   margin-top: 30px;
-  font-size: clamp(16px, 4vw, 22px);
+
+  font-size: clamp(12px, 2.5vw, 16px); /* igual ao .info */
   letter-spacing: 3px;
+  opacity: 0.7;
 
   opacity: 0;
   transform: translateY(10px);
@@ -120,12 +97,11 @@ body.active .reveal {
   transform: translateY(-10px);
 }
 
-/* BACK BUTTON */
+/* BACK */
 .back {
   position: absolute;
   top: -20px;
   left: 20px;
-
   font-size: 14px;
   cursor: pointer;
   opacity: 0;
@@ -144,8 +120,8 @@ body.active .back {
   opacity: 0.7;
 }
 
-/* BUTTON */
-.rsvp {
+/* BOTÃO (ÚNICO DINÂMICO) */
+.cta {
   margin-top: 50px;
   display: inline-block;
   text-decoration: none;
@@ -158,14 +134,17 @@ body.active .back {
   background: transparent;
   color: #111;
 
-  opacity: 0;
   transition: all 0.3s ease;
 }
 
-body.active .rsvp {
-  opacity: 1;
+body.active .cta {
   border-color: rgba(255,255,255,0.5);
   color: #fff;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(255,255,255,0.2);
 }
 
 /* VIDEO */
@@ -195,11 +174,7 @@ body.active .bg-video {
 
   <div class="names">l + d</div>
 
-  <!-- BACK -->
   <div class="back" onclick="goBack()">←</div>
-
-  <!-- TAP -->
-  <div class="tap">tap for details</div>
 
   <!-- INITIAL -->
   <div class="initial">
@@ -209,16 +184,16 @@ body.active .bg-video {
 
   <!-- REVEAL -->
   <div class="reveal">
-    <div>dress code</div>
-    <div style="margin-top:10px;">all black</div>
-    <div>no exceptions</div>
+    <div class="date">03.09.2026</div>
+    <div style="margin-top:10px;">
+      Dress code: all black 🖤 - no exceptions
+    </div>
   </div>
 
   <div class="countdown" id="countdown"></div>
 
-  <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp">
-    confirm
-  </a>
+  <!-- BOTÃO DINÂMICO -->
+  <a href="#" class="cta" id="ctaButton">+ info</a>
 
 </div>
 
@@ -233,29 +208,48 @@ body.active .bg-video {
 <script>
 const audio = document.getElementById("music");
 const video = document.querySelector(".bg-video");
+const cta = document.getElementById("ctaButton");
 
 function activateExperience() {
   document.body.classList.add("active");
+
   video.play().catch(() => {});
   audio.play().catch(() => {});
+
+  /* muda botão */
+  cta.textContent = "confirm";
+  cta.href = "https://forms.gle/YFfshJma97fQJsei7";
+  cta.target = "_blank";
 }
 
 function goBack() {
   document.body.classList.remove("active");
+
+  /* volta botão */
+  cta.textContent = "+ info";
+  cta.href = "#";
+  cta.target = "";
 }
 
-/* TAP */
-document.querySelector(".tap").addEventListener("click", activateExperience);
+/* comportamento botão */
+cta.addEventListener("click", function(e) {
+  if (!document.body.classList.contains("active")) {
+    e.preventDefault();
+    activateExperience();
+  }
+});
 
-/* AUDIO CONTROL */
+/* parar música */
 window.addEventListener("beforeunload", () => audio.pause());
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) audio.pause();
 });
 
-document.querySelector(".rsvp").addEventListener("click", () => {
-  audio.pause();
+cta.addEventListener("click", () => {
+  if (document.body.classList.contains("active")) {
+    audio.pause();
+  }
 });
 
 /* COUNTDOWN */
