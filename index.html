@@ -9,14 +9,12 @@
 
 <style>
 
-/* RESET */
 html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
-/* BASE */
 body {
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
@@ -24,12 +22,11 @@ body {
   align-items: center;
   justify-content: center;
   color: #111;
-  transition: all 1s ease;
+  transition: all 0.8s ease;
 
   background:
     radial-gradient(circle at 25% 20%, rgba(255,255,255,0.9), transparent 55%),
     radial-gradient(circle at 75% 70%, rgba(255,255,255,0.6), transparent 60%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4), transparent 70%),
     repeating-linear-gradient(
       0deg,
       rgba(0,0,0,0.03),
@@ -45,7 +42,6 @@ body.active {
   color: #f5f5f5;
 }
 
-/* LAYOUT */
 .poster {
   width: 100%;
   max-width: 600px;
@@ -54,7 +50,7 @@ body.active {
   position: relative;
 }
 
-/* NAMES (AGORA FIXO) */
+/* HEADER FIXO */
 .names {
   font-size: clamp(20px, 4vw, 32px);
   margin-bottom: 30px;
@@ -62,9 +58,34 @@ body.active {
   opacity: 0.6;
 }
 
-/* DATE + INFO DESAPARECEM */
+/* CTA TAP */
+.tap {
+  position: absolute;
+  top: -20px;
+  right: 20px;
+
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+  animation: pulse 1.4s infinite;
+  opacity: 0.8;
+}
+
+body.active .tap {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* INITIAL */
 .initial {
-  transition: opacity 0.8s ease;
+  transition: opacity 0.6s ease;
 }
 
 body.active .initial {
@@ -83,6 +104,38 @@ body.active .initial {
   opacity: 0.7;
 }
 
+/* REVEAL */
+.reveal {
+  margin-top: 30px;
+  font-size: clamp(16px, 4vw, 22px);
+  letter-spacing: 3px;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.8s ease;
+}
+
+body.active .reveal {
+  opacity: 1;
+  transform: translateY(-10px);
+}
+
+/* BACK BUTTON */
+.back {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+body.active .back {
+  opacity: 0.6;
+}
+
 /* COUNTDOWN */
 .countdown {
   margin-top: 40px;
@@ -91,56 +144,7 @@ body.active .initial {
   opacity: 0.7;
 }
 
-/* TAP */
-.tap {
-  position: absolute;
-  top: -20px;
-  right: 20px;
-
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-
-  cursor: pointer;
-  animation: bounce 1.6s infinite;
-}
-
-.tap span {
-  font-weight: 700;
-}
-
-body.active .tap {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* REVEAL */
-.reveal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 60px;
-
-  font-size: clamp(16px, 4vw, 22px);
-  letter-spacing: 3px;
-
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-body.active .reveal {
-  opacity: 1;
-}
-
-/* BOTÃO */
+/* BUTTON */
 .rsvp {
   margin-top: 50px;
   display: inline-block;
@@ -154,20 +158,14 @@ body.active .reveal {
   background: transparent;
   color: #111;
 
-  transition: all 0.3s ease;
-
   opacity: 0;
+  transition: all 0.3s ease;
 }
 
 body.active .rsvp {
   opacity: 1;
   border-color: rgba(255,255,255,0.5);
   color: #fff;
-}
-
-.rsvp:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 12px rgba(255,255,255,0.2);
 }
 
 /* VIDEO */
@@ -195,11 +193,13 @@ body.active .bg-video {
 
 <div class="poster">
 
-  <!-- NAMES (FIXO SEMPRE) -->
   <div class="names">l + d</div>
 
+  <!-- BACK -->
+  <div class="back" onclick="goBack()">←</div>
+
   <!-- TAP -->
-  <div class="tap">🖤 <span>dress code</span></div>
+  <div class="tap">tap for details</div>
 
   <!-- INITIAL -->
   <div class="initial">
@@ -209,26 +209,23 @@ body.active .bg-video {
 
   <!-- REVEAL -->
   <div class="reveal">
-    <div>all black</div>
+    <div>dress code</div>
+    <div style="margin-top:10px;">all black</div>
     <div>no exceptions</div>
   </div>
 
-  <!-- COUNTDOWN -->
   <div class="countdown" id="countdown"></div>
 
-  <!-- BOTÃO -->
   <a href="https://forms.gle/YFfshJma97fQJsei7" target="_blank" class="rsvp">
     confirm
   </a>
 
 </div>
 
-<!-- VIDEO -->
 <video class="bg-video" muted loop playsinline>
   <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- AUDIO -->
 <audio id="music" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
@@ -243,8 +240,14 @@ function activateExperience() {
   audio.play().catch(() => {});
 }
 
-document.body.addEventListener("click", activateExperience, { once: true });
+function goBack() {
+  document.body.classList.remove("active");
+}
 
+/* TAP */
+document.querySelector(".tap").addEventListener("click", activateExperience);
+
+/* AUDIO CONTROL */
 window.addEventListener("beforeunload", () => audio.pause());
 
 document.addEventListener("visibilitychange", () => {
@@ -282,9 +285,6 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
